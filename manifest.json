@@ -1,0 +1,52 @@
+{
+	"manifest_version":2,
+
+	"name":"Jesture",
+	"version":"1.0",
+	"description":"Save your favorite lampoon pieces.",
+	"background":{
+		"scripts":["js/jquery.min.js", "background.js"],
+		"persistent":true
+	},
+	"icons":{
+		"16":"img/icon_hat.png",
+		"48":"img/big48.png",
+		"128":"img/big128.png"
+
+	},
+	"browser_action":{
+		"default_icon": "big.png",
+		"default_title":"Lampoon",
+		"default_popup":"popup.html"
+	},
+	"content_scripts":[
+		{
+			"matches":["*://*.harvardlampoon.com/*"],
+			"js":["js/jquery.min.js", "content scripts/content_script.js"],
+			"css":["css/jesture.css"]
+		}
+	],
+
+	"web_accessible_resources":[
+		"js/jquery.min.js",
+		"js/jquery.min.map",
+		"css/jesture.css",
+		"img/icon128.png",
+		"jesture_page.html",
+		"img/star_active.png",
+		"img/star_inactive.png",
+		"img/hat_active.png",
+		"img/hat_inactive.png",
+		"big.png",
+		"img/banner_hat.png"
+	],
+	"permissions": [
+		"background",
+		"storage",
+		"tabs",
+		"activeTab",
+		"unlimitedStorage",
+		"*://*/*",
+		"https://ajax.googleapis.com/"
+	]
+}

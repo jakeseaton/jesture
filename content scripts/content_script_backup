@@ -1,0 +1,1018 @@
+// Content script for Jesture Chrome Extension
+// Developed by: Jake Seaton Quincy-Dewolfe 20-05
+
+/* SCRIPT TO BE RUN ON EVRY PAGE OF THE HARVARD LAMPOON WEBSITE */
+
+// global url variable
+var currentUrl;
+
+// inject stylesheet
+var styles_url = chrome.extension.getURL('css/jesture.css');
+$('head').append("<link rel = 'stylesheet' href =" + styles_url + "></link>");
+
+// inject new page icon
+var icon_url = chrome.extension.getURL('img/icon128.png');
+var new_icon = "<link rel = 'icon' href ="+ icon_url+ "></link>";
+$('head').append(new_icon);
+
+// build icons
+
+var jesture_url = chrome.extension.getURL('jesture_page.html');
+
+var inactive_star_url = chrome.extension.getURL("img/star_active.png")
+var active_star_url = chrome.extension.getURL("img/star_inactive.png")
+
+var active_star = "<img class = 'star active' src = " + active_star_url + " alt = 'star'/>";
+var inactive_star = "<img class = 'star inactive' src = " + inactive_star_url + " alt = 'star'/>";
+
+var jesture_star_inactive ="<div id = 'jesture-container'><div id = 'jesture'>"+ inactive_star+"</div></div>";
+var jesture_star_active = "<div id = 'jesture-container'><div id = 'jesture'>"+ active_star +"</div></div>";
+
+var inactive_hat_url = chrome.extension.getURL('img/hat_inactive.png');
+var active_hat_url = chrome.extension.getURL('img/hat_active.png');
+
+var inactive_hat = "<img class = 'hat star inactive' src = " + inactive_hat_url + " alt = 'star'/>";
+var active_hat = "<img class = 'hat star active' src = " + active_hat_url + " alt = 'star'/>";
+
+var jesture_hat_inactive = inactive_hat
+var jesture_hat_active = active_hat
+
+// listen for changes in chrome.storage
+chrome.storage.onChanged.addListener(function(changes, namespace){
+	// announce
+	console.log("storage was changed");
+	// save changes
+	// for (var key in changes){var storageChange = changes[key];}
+	// reattach stars and jQuery
+	// attach_jquery();
+	// $(".inactive").siblings().slideDown();
+
+});
+
+// switch over url
+chrome.runtime.sendMessage({question:"what is the current url?"}, function main(response){
+	currentUrl = response.url;
+	console.log(response.url);
+
+	// $.ajax({
+	// 	url: currentUrl,
+	// 	type: "get",
+	// 	dataType: "",
+	// 	success: function(data) {
+	// 		console.log(data);
+	// }});
+	var url_array = response.url.split("/");
+	// console.log(url_array);
+	if (url_array[2] == "harvardlampoon.com"){
+		// console.log("YAY IT WORKS");
+		switch (url_array[3]){
+			case "":
+				main_home();
+				break;
+			case "issue":
+				main_issue();
+				main_thumbnails();
+				break;
+			case "issues":
+				main_issues();
+				break;
+			case "piece":
+				main_piece();
+				break;
+			case "author":
+				main_thumbnails();
+				main_authors();
+				break;
+			case "comix":
+					if (url_array[4] != ""){
+						main_comix();
+					}
+					else {
+						main_comix_home()
+					}
+					break;
+			case "masthead":
+				console.log("Current on the Masthead. No development yet.");
+				break;
+		}
+	}
+	else {
+		console.log("Not on Lampoon site. On: ", tab.url);
+	}
+});
+
+
+
+function main_home(){
+	// crawl_lampoon(currentUrl);
+	main_piece();
+	// ALSO DO STAFF PICKS
+}
+
+function main_main(){
+	var Feed = [];
+	var piecesArray = [];
+	var comixArray = [];
+	var issuesArray = [];
+	var authorsArray = [];
+
+	chrome.storage.sync.get("feed", function assign(data){
+		if (!chrome.runtime.error){
+			Feed = data.feed
+			for (item in Feed){
+				switch (Feed[item].Type){
+					case "piece":
+						piecesArray.push(Feed[item])
+						break;
+
+					case "comix":
+						comixArray.push(Feed[item])
+						break;
+
+					case "issue":
+						issuesArray.push(Feed[item])
+						break;
+
+					case "author":
+						authorsArray.push(Feed[item])
+						break;
+					piecesArray.push(Feed[item].Title);
+				}
+			}
+			// go about busin
+		}
+		else {alert("there was an error")}
+	});
+	$(".piece-text-container").each(function(){
+		// need to get the current piece title, not just the home page
+		var curr_title = $('.piece-title').html();
+		// if it's in the array of titles
+		if (($.inArray(curr_title, piecesArray)) != -1){
+
+			// if there isn't already a star there
+			if ($(this).has('#jesture-container').length == 0){
+				// add the bright star
+				$(this).prepend(jesture_star_active);
+			}
+		}
+		else{
+
+			//it's not currently a favorit
+
+			// if there isn't already a star there
+			if ($(this).has("#jesture-container").length == 0){
+				// add the dull star
+				$(this).prepend(jesture_star_inactive);
+				// $(this).find('.arrow-link').slideUp();
+			}
+		}
+	});
+	$('.info-bar').each(function(){
+		$(this).css({"cursor":"auto"});
+		$(this).hover(function(){
+			$(this).animate({"height":"110px"});
+			$(this).find(".piece-link").toggle();
+
+		},function(){
+			$(this).animate({"height":"90px"});
+			$(this).find(".piece-link").toggle();
+		});
+		var curr_title = $(this).find(".piece-title").html();
+		// if it's in the array of titles
+		if (($.inArray(curr_title, piecesArray))!=-1){
+			if($(this).has("#jesture-container").length ==0){
+				$(this).append(jesture_star_active);
+			}
+		}
+		else{
+			// if there isn't already a star there
+			if($(this).has("#jesture-container").length ==0){
+				// ad the dull star
+				$(this).append(jesture_star_inactive);
+				// $(this).find('.arrow-link').slideUp();
+			}
+		}
+	});
+	$('.comic-container').each(function(){
+		var Img = $(this).find('img').attr("src");
+		var Url = $(this).find('a').attr("href");
+		var Title = $(this).prev().html();
+		console.log(Title);
+		if (($.inArray(Img, comixArray)) != -1){
+
+			console.log(Img, "is in array", comixArray);
+			if ($(this).has("#jesture-container").length == 0){
+				$(this).find("a").prepend(jesture_star_active);
+				$(this).find("#jesture-container").css({"position":"absolute", "top":"0px", "right":"0px"});
+			}
+		}
+		else{
+			if($(this).has("#jesture-container").length ==0){
+				console.log(Img, "is not in array", comixArray)
+				$(this).find("a").prepend(jesture_star_inactive);
+				$(this).find("#jesture-container").css({"position":"absolute", "top":"0px", "right":"0px"});
+			}
+		}
+	});
+	$(".title-container").find("h2").after(jesture_hat_inactive);
+	$('#comic-full').each(function(){
+		var Img = $(this).find('img').attr("src");
+		if (($.inArray(Img, comixArray)) != -1){
+			console.log(Img, "is in array", comixArray);
+			if ($(this).has("#jesture-container").length == 0){
+				$(this).append(jesture_star_active);
+			}
+		}
+		else{
+			if($(this).has("#jesture-container").length ==0){
+				$(this).append(jesture_star_inactive);
+				// $(this).find('.arrow-link').slideUp();
+			}
+		}
+	});
+	$('.issue').each(function(){
+		var Title =  $(this).find("h2").html();
+
+		if(($.inArray(Title, issuesArray))!=-1){
+			console.log(Title, "is in array", issuesArray);
+			if ($(this).has("#jesture-container").length ==0){
+				$(this).find(".issue-description").after(jesture_star_active);
+			}
+		}
+		else{
+			if($(this).has("#jesture-container").length ==0){
+				$(this).find(".issue-description").after(jesture_star_inactive);
+				$(this).find(".arrow-link").slideUp();
+			}
+		}
+	});
+	$(".author-header").each(function(){
+		var Pieces = []
+		var Name = $(this).find("h2").html()
+		if (($.inArray(Name, authorsArray))!= -1){
+			console.log(Name, "is in array", authorsArray);
+			if ($(this).has("#jesture-container").length ==0){
+				$(this).append(jesture_hat_active)
+			}
+		}
+		else{
+			if($(this).has("#jesture-container").length ==0){
+				$(this).append(jesture_hat_inactive);
+				// $(this).find('.arrow-link').slideUp();
+			}
+		}
+	});
+
+}
+
+
+function main_piece(){
+	// maybe make it appear next to the title?
+	// there is only one piece
+
+	// chrome.runtime.sendMessage({question: "newpage", u: currentUrl}, function(response){
+	// 	console.log(response.eval);
+	// });
+	// console.log(document.links);
+	var Feed = [];
+
+	var piecesObject = {};
+	var piecesArray = [];
+
+	chrome.storage.sync.get("feed", function assign(data){
+		if (!chrome.runtime.error){
+			Feed = data.feed
+			for (item in Feed){
+				if (Feed[item].Type =="piece"){
+					piecesArray.push(Feed[item].Title);
+				}
+			}
+		}
+		else {alert("there was an error")}
+	});
+	console.log(Feed);
+
+	$(".piece-text-container").each(function(){
+		// need to get the current piece title, not just the home page
+		var curr_title = $('.piece-title').html();
+		// if it's in the array of titles
+		if (($.inArray(curr_title, piecesArray)) != -1){
+
+			// if there isn't already a star there
+			if ($(this).has('#jesture-container').length == 0){
+				// add the bright star
+				$(this).prepend(jesture_star_active);
+			}
+		}
+		else{
+
+			//it's not currently a favorit
+
+			// if there isn't already a star there
+			if ($(this).has("#jesture-container").length == 0){
+				// add the dull star
+				$(this).prepend(jesture_star_inactive);
+				// $(this).find('.arrow-link').slideUp();
+			}
+		}
+	});
+
+	chrome.storage.sync.get("pieces", function assign(data){
+		if (!chrome.runtime.error){
+			piecesObject = data.pieces
+			for (i = 0; i < piecesObject.favorites.length; i++){
+				// add all the titles
+				piecesArray.push(piecesObject.favorites[i].Title);
+			}
+			// append to all pieces on home and pieces pages.
+			$(".piece-text-container").each(function(){
+				// need to get the current piece title, not just the home page
+				var curr_title = $('.piece-title').html();
+				// if it's in the array of titles
+				if (($.inArray(curr_title, piecesArray)) != -1){
+
+					// if there isn't already a star there
+					if ($(this).has('#jesture-container').length == 0){
+						// add the bright star
+						$(this).prepend(jesture_star_active);
+					}
+				}
+				else{
+
+					//it's not currently a favorit
+
+					// if there isn't already a star there
+					if ($(this).has("#jesture-container").length == 0){
+						// add the dull star
+						$(this).prepend(jesture_star_inactive);
+						// $(this).find('.arrow-link').slideUp();
+					}
+				}
+			});
+
+			//attach_jquery();
+
+			$(".star").click(function(){
+
+				// initialize the piece object
+				var piece = {};
+
+				// What about when they favorite american dog off the home page?
+				var header = $(".piece-header");
+				// var text = $("h2").html();
+				var Img
+				// get the title
+				var Title = $(".piece-title").html();
+				var Author = header.find(".piece-author").find('a').html();
+				// var Txt = $(".piece-text-container").find("h2").html();
+
+				if ($(".piece").hasClass("no_art")){
+					Img = false;//have no art
+				}
+				else {
+					var Img = $(".piece-artwork").find("img").attr('src');
+					console.log("this piece's image is", Img);
+				}
+
+				// construct the object to be deleted or inserted
+
+				piece.Title = Title;
+				piece.Author = Author;
+				piece.Url = currentUrl;
+				piece.Img = Img;
+
+				send_to_background(currentUrl);
+				// piece.Txt = Txt;
+				// piece.Img = Img;
+
+				// if it isn't already in favorites
+				if ($(this).hasClass("inactive")){
+
+
+					// first, check if the title is not in the arrays.
+
+					// push into the favorites array of the pieces object
+					piecesObject.favorites.push(piece);
+
+					// add to storage
+					chrome.storage.sync.set({"pieces": piecesObject}, function check(){
+						// check for error.
+						if (!chrome.runtime.error){
+							chrome.storage.sync.get("pieces", function display(data){
+								// fires a storage change event
+								console.log("new storage contents for pieces", data);
+							});
+						}
+
+						// callback--tell the favorites page to refresh?
+						// or migrate that functionality to the background page.
+					});
+
+					// WHAT IF IT DOESN'T have an image?
+					// need to get img, author, issue, title.
+
+					// add it to storage
+					change_to_active(this);
+				}
+				else {
+					// invariant of object structure assumed
+					var index_to_remove = piecesObject.favorites.indexOf(piece);
+					piecesObject.favorites.splice(index_to_remove, 1);
+
+					// push the new favorites to storage
+					chrome.storage.sync.set({"pieces":piecesObject}, function callback(){
+						// test
+						chrome.storage.sync.get("pieces", function display(data){
+							console.log(data);
+						});
+						// idk do something
+					});
+
+					change_to_inactive(this);
+				}
+			});// end attach functionality
+		}// end check for chrome error
+	});// end storage query
+}// end main
+
+
+function main_thumbnails(){
+	var piecesObject = {};
+	var piecesArray = [];
+	chrome.storage.sync.get('pieces', function assign(data){
+		if (!chrome.runtime.error){
+			piecesObject = data.pieces
+		}
+		for (i = 0; i < piecesObject.favorites.length; i++){
+			piecesArray.push(piecesObject.favorites[i].Title);
+		}
+		// console.log(piecesArray);
+		// Thumbnails
+		$('.info-bar').each(function(){
+			$(this).css({"cursor":"auto"});
+			$(this).hover(function(){
+				$(this).animate({"height":"110px"});
+				$(this).find(".piece-link").toggle();
+
+			},function(){
+				$(this).animate({"height":"90px"});
+				$(this).find(".piece-link").toggle();
+			});
+			var curr_title = $(this).find(".piece-title").html();
+			// if it's in the array of titles
+			if (($.inArray(curr_title, piecesArray))!=-1){
+				if($(this).has("#jesture-container").length ==0){
+					$(this).append(jesture_star_active);
+				}
+			}
+			else{
+				// if there isn't already a star there
+				if($(this).has("#jesture-container").length ==0){
+					// ad the dull star
+					$(this).append(jesture_star_inactive);
+					// $(this).find('.arrow-link').slideUp();
+				}
+			}
+		});
+		// attach_jquery();
+
+		// when a piece is favorited
+		$(".star").click(function(){
+			var piece = {};
+			var thumbnail = $(this).parent().parent().parent().parent();
+			// if it has artwork
+			var Author, Url, Title, Img
+			if ($(thumbnail).hasClass("piece-art")){
+				Img = $(thumbnail).find(".background").find("img").attr("src");
+			}
+			// else no art
+			else {
+				Img = false;
+			}
+			// doesn't take into account the different URL's
+			Url = $(thumbnail).find("a").attr("href");
+			Url = "http://harvardlampoon.com"+Url;
+			console.log(Url);
+			Author = $(thumbnail).find(".author-link").html();
+			Title = $(thumbnail).find("h3").html();
+
+			piece.Title = Title;
+			piece.Author = Author;
+			piece.Img = Img;
+			piece.Url = Url
+
+			send_to_background(Url);
+
+			if ($(this).hasClass("inactive")){
+				piecesObject.favorites.push(piece);
+
+				chrome.storage.sync.set({"pieces":piecesObject}, function check(){
+						if (!chrome.runtime.error){
+							chrome.storage.sync.get("pieces", function display(data){
+								console.log("new storage contents for pieces", data);
+							});
+						}
+						else{
+							alert("there was an error");
+						}
+				});
+				change_to_active(this);
+			}
+			else {
+				var index_to_remove = piecesObject.favorites.indexOf(piece);
+				piecesObject.favorites.splice(index_to_remove, 1);
+				chrome.storage.sync.set({"pieces":piecesObject}, function callback(){
+					chrome.storage.sync.get("pieces", function display(data){
+						console.log("new contents of pieces", data);
+					});
+				});
+				change_to_inactive(this);
+				// it's inactive
+
+			}
+			// var Author =
+			// var Url =
+			// // it may not have an image
+			// var Img =
+		});// end star functionality
+
+	});// end storage query
+// there are many thumbnails
+}// end main
+
+function main_comix_home(){
+	var comixObject = {};
+	var comixArray = [];
+	chrome.storage.sync.get("comix",function assign(data){
+		if (!chrome.runtime.error){
+			comixObject = data.comix
+			for (i = 0; i<comixObject.favorites.length; i++){
+				comixArray.push(comixObject.favorites[i].Img);
+			}// end for loop
+			$('.comic-container').each(function(){
+				var Img = $(this).find('img').attr("src");
+				var Url = $(this).find('a').attr("href");
+				var Title = $(this).prev().html();
+				console.log(Title);
+				if (($.inArray(Img, comixArray)) != -1){
+
+					console.log(Img, "is in array", comixArray);
+					if ($(this).has("#jesture-container").length == 0){
+						$(this).find("a").prepend(jesture_star_active);
+						$(this).find("#jesture-container").css({"position":"absolute", "top":"0px", "right":"0px"});
+					}
+				}
+				else{
+					if($(this).has("#jesture-container").length ==0){
+						console.log(Img, "is not in array", comixArray)
+						$(this).find("a").prepend(jesture_star_inactive);
+						$(this).find("#jesture-container").css({"position":"absolute", "top":"0px", "right":"0px"});
+					}
+				}
+			});
+			// attach_jquery();
+
+			// star functionality
+			$(".star").click(function(e){
+				e.preventDefault();
+
+				// create the object
+				var comix = {};
+
+				// CHANGE THIS IF YOU MOVE TO BOTTOM
+				var container = $(this).parentsUntil(".comic-outer-container");
+				var Img = $(container).find("img").not(".star").attr("src");
+				var Url = $(container).find("a").attr("href");
+				// oof
+				var Title = $(this).parent().parent().parent().parent().siblings().html();
+
+				comix.Title = Title;
+				comix.Img = Img;
+				comix.Url = Url
+
+
+				if ($(this).hasClass("inactive")){
+					// var ImgEncoding = getBase64Image($("#comic-full").find("img")[0]);
+					// store_in_background(Img,ImgEncoding);
+
+					comixObject.favorites.push(comix);
+					// add to storage
+					chrome.storage.sync.set({"comix":comixObject}, function check(){
+						if (!chrome.runtime.error){
+							chrome.storage.sync.get("comix", function display(data){
+								console.log("new storage contents for comix", data);
+							});
+						}
+					});
+
+					change_to_active(this);
+				}
+				else{
+					// delete_from_background(Img);
+					var index_to_remove = comixObject.favorites.indexOf(comix);
+					comixObject.favorites.splice(index_to_remove, 1);
+					chrome.storage.sync.set({"comix":comixObject},function callback(){
+						// make sure it worked
+						chrome.storage.sync.get("comix",function display(data){
+							console.log("new contents of comix",data);
+						});
+					});
+					change_to_inactive(this);
+				}
+			});
+		}// end check for error
+	});// end storage query
+	// // there is only one comic
+
+}
+function main_issue(){
+	$(".title-container").find("h2").after(jesture_hat_inactive);
+	$(".hat").click(function(){
+		// STORE THE ISSUE IN STORAGE
+		// THIS IS ALSO ADDING THE FIRST PIECE--DON'T DO THAT
+		// OVERRIDE THE FUNCTIONALITY IN MAIN THUM
+
+		if ($(this).hasClass("inactive")){
+			chrome.storage.sync.get("pieces", function derp(data){
+				piecesObject = data.pieces
+				$(".star").each(function(){
+					if ($(this).hasClass("inactive")){
+						var piece = {};
+						var thumbnail = $(this).parent().parent().parent().parent();
+						// if it has artwork
+						var Author, Url, Title, Img
+
+						if ($(thumbnail).hasClass("piece-art")){
+							Img = $(thumbnail).find(".background").find("img").attr("src");
+						}
+						// else no art
+						else {
+							Img = false;
+						}
+
+						Url = $(thumbnail).find("a").attr("href");
+						Url = "http://harvardlampoon.com"+Url;
+						send_to_background(Url);
+						console.log(Url);
+						Author = $(thumbnail).find(".author-link").html();
+						Title = $(thumbnail).find("h3").html();
+
+						piece.Title = Title;
+						piece.Author = Author;
+						piece.Img = Img;
+						piece.Url = Url
+
+						piecesObject.favorites.push(piece);
+
+						change_to_active(this);
+
+					}
+				});// end iterate over stars
+
+				chrome.storage.sync.set({"pieces":piecesObject}, function check(data){
+					console.log("DERASESASD");
+					chrome.storage.sync.get("pieces", function display(data){
+						console.log("new storage contents for pieces", data);
+					});
+				});// end update storage
+			}); //end storage query
+			change_to_active(this);
+		}// end if
+		// else {
+		// 	change_to_inactive(this);
+		// }
+	});// end click
+}// end main
+		// add everything to storage
+function main_comix(){
+	// make it append to the top of the comix, not the bottom!
+	var comixObject = {};
+	var comixArray = [];
+	chrome.storage.sync.get("comix",function assign(data){
+		if (!chrome.runtime.error){
+			comixObject = data.comix
+			for (i = 0; i<comixObject.favorites.length; i++){
+				comixArray.push(comixObject.favorites[i].Img);
+			}// end for loop
+			$('#comic-full').each(function(){
+				var Img = $(this).find('img').attr("src");
+				if (($.inArray(Img, comixArray)) != -1){
+					console.log(Img, "is in array", comixArray);
+					if ($(this).has("#jesture-container").length == 0){
+						$(this).append(jesture_star_active);
+					}
+				}
+				else{
+					if($(this).has("#jesture-container").length ==0){
+						$(this).append(jesture_star_inactive);
+						// $(this).find('.arrow-link').slideUp();
+					}
+				}
+			});
+			// attach_jquery();
+
+			// star functionality
+			$(".star").click(function(){
+
+				// create the object
+				var comix = {};
+
+				// take the image, ignoring the jesture images
+
+				var Img = $(this).parent().parent().prev().attr("src");
+				var Title = false
+				comix.Img = Img;
+				comix.Url = currentUrl
+
+				$.ajax("http://harvardlampoon.com/comix/", {
+					async:false,
+					success:function assign(data){
+					  correct = $.grep($(data).find(".comic-outer-container"), function(e){
+							return ($(e).find("img").attr("src") == Img);
+						});
+						Title = $(correct).find(".comic-title").html()
+					}
+				});
+				comix.Title = Title
+				console.log(comix);
+
+				if ($(this).hasClass("inactive")){
+					// var ImgEncoding = getBase64Image($("#comic-full").find("img")[0]);
+					// store_in_background(Img,ImgEncoding);
+
+					comixObject.favorites.push(comix);
+					// add to storage
+					chrome.storage.sync.set({"comix":comixObject}, function check(){
+						if (!chrome.runtime.error){
+							chrome.storage.sync.get("comix", function display(data){
+								console.log("new storage contents for comix", data);
+							});
+						}
+					});
+
+					change_to_active(this);
+				}
+				else{
+					// delete_from_background(Img);
+					var index_to_remove = comixObject.favorites.indexOf(comix);
+					comixObject.favorites.splice(index_to_remove, 1);
+					chrome.storage.sync.set({"comix":comixObject},function callback(){
+						// make sure it worked
+						chrome.storage.sync.get("comix",function display(data){
+							console.log("new contents of comix",data);
+						});
+					});
+					change_to_inactive(this);
+				}
+			});
+		}// end check for error
+	});// end storage query
+	// there is only one comic
+}//end main
+
+function main_issues(){
+	// .click(function(e){e.preventDefault();})
+	var issuesObject = {};
+	var issuesArray = [];
+
+	chrome.storage.sync.get("issues",function assign(data){
+		if (!chrome.runtime.error){
+
+			issuesObject = data.issues;
+			for (i = 0; i<issuesObject.favorites.length; i++){
+				issuesArray.push(issuesObject.favorites[i].Title);
+			}// end for loop
+			$('.issue').each(function(){
+				var Title =  $(this).find("h2").html();
+
+				if(($.inArray(Title, issuesArray))!=-1){
+					console.log(Title, "is in array", issuesArray);
+					if ($(this).has("#jesture-container").length ==0){
+						$(this).find(".issue-description").after(jesture_star_active);
+					}
+				}
+				else{
+					if($(this).has("#jesture-container").length ==0){
+						$(this).find(".issue-description").after(jesture_star_inactive);
+						$(this).find(".arrow-link").slideUp();
+					}
+				}
+			});
+
+			// attach_jquery();
+
+			// star functionality
+			$(".star").click(function(e){
+				// Ajax to the page with all of the thumbnails
+				// add all of them to the local storage with the key of the issue title.
+				// need to json.stringify
+
+				e.preventDefault();
+				// create the object
+				var issue = {};
+				// climb up the DOM
+				var current_issue = $(this).parent().parent().parent()
+				var Title =  current_issue.find("h2").html();
+				var Img = current_issue.find("img").attr("src")
+				var Url = current_issue.find("a").attr("href");
+				console.log(Url)
+				var Description = current_issue.find(".issue-description").html();
+				issue.Title = Title
+				issue.Img = Img
+				issue.Url = "http://harvardlampoon.com" + Url
+				issue.Description = Description
+
+				if ($(this).hasClass("inactive")){
+
+
+					issuesObject.favorites.push(issue);
+					// add to storage
+					chrome.storage.sync.set({"issues":issuesObject}, function check(){
+						if (!chrome.runtime.error){
+							chrome.storage.sync.get("issues", function display(data){
+								console.log("new storage contents for issues", data);
+							});
+						}
+					});
+
+					change_to_active(this);
+				}
+				else{
+					var index_to_remove = issuesObject.favorites.indexOf(issue);
+					issuesObject.favorites.splice(index_to_remove, 1);
+					chrome.storage.sync.set({"issues":issuesObject},function callback(){
+						// make sure it worked
+						chrome.storage.sync.get("issues",function display(data){
+							console.log("new contents of issues",data);
+						});
+					});
+					change_to_inactive(this);
+				}
+			});
+		}// end check for error
+	});// end storage query
+	// there is only one comic
+
+}// end main
+
+function main_authors(){
+	var authorsObject = {};
+	var authorsArray = [];
+	chrome.storage.sync.get("authors",function assign(data){
+		if (!chrome.runtime.error){
+			authorsObject = data.authors
+			for (i = 0; i<authorsObject.favorites.length; i++){
+				authorsArray.push(authorsObject.favorites[i].Name);
+			}// end for loop
+			$(".author-header").each(function(){
+				var Pieces = []
+				var Name = $(this).find("h2").html()
+				if (($.inArray(Name, authorsArray))!= -1){
+					console.log(Name, "is in array", authorsArray);
+					if ($(this).has("#jesture-container").length ==0){
+						$(this).append(jesture_hat_active)
+					}
+				}
+				else{
+					if($(this).has("#jesture-container").length ==0){
+						$(this).append(jesture_hat_inactive);
+						// $(this).find('.arrow-link').slideUp();
+					}
+				}
+			});
+			// star functionality
+			$(".hat").click(function(){
+
+
+				// create the object
+				var author = {};
+
+				// take the image, ignoring the jesture images
+
+				var Name = $(this).parent().find("h2").html();
+				console.log(Name);
+				author.Name = Name
+
+				var Pieces = []
+				// write this here
+				$("body").find(".piece").each(function(){
+					curr_a = $(this).children().first().attr("href")
+					console.log(curr_a);
+					send_to_background("http://harvardlampoon.com" + curr_a);
+					Pieces.push(curr_a);
+				});
+
+				// console.log("all pieces",all_pieces)
+				// for (curr_piece in all_pieces ){
+				// 	// console.log(all_pieces[curr_piece].children().first());
+				//
+				// }
+				console.log(Pieces);
+				author.Pieces = Pieces
+
+				// assume that we are on the author page--grab all of the pieces
+				// $.ajax("http://harvardlampoon.com/comix/", {
+				// 	async:false,
+				// 	success:function assign(data){
+				// 	  correct = $.grep($(data).find(".comic-outer-container"), function(e){
+				// 			return ($(e).find("img").attr("src") == Img);
+				// 		});
+				// 		Title = $(correct).find(".comic-title").html()
+				// 	}
+				// });
+				// comix.Title = Title
+				// console.log(comix);
+
+				if ($(this).hasClass("inactive")){
+					// add all pieces to favorite authors
+					$(".star").each(function(){
+						change_to_active(this);
+					});
+
+					// var ImgEncoding = getBase64Image($("#comic-full").find("img")[0]);
+					// store_in_background(Img,ImgEncoding);
+
+					authorsObject.favorites.push(author);
+					// add to storage
+					chrome.storage.sync.set({"authors":authorsObject}, function check(){
+						if (!chrome.runtime.error){
+							chrome.storage.sync.get("authors", function display(data){
+								console.log("new storage contents for authors", data);
+							});
+						}
+					});
+
+					change_to_active(this);
+				}
+				else{
+					// delete all of the author's pieces from favorites.
+					$(".star").each(function(){
+						change_to_inactive(this);
+					});
+					// delete_from_background(Img);
+					var index_to_remove = authorsObject.favorites.indexOf(author);
+					authorsObject.favorites.splice(index_to_remove, 1);
+					chrome.storage.sync.set({"authors":authorsObject},function callback(){
+						// make sure it worked
+						chrome.storage.sync.get("authors",function display(data){
+							console.log("new contents of authors",data);
+						});
+					});
+					change_to_inactive(this);
+				}
+			});
+		}// end check for error
+	});// end storage query
+	// there is only one comic
+}//end main
+	// "author-link.html() on the thumbnails pages
+	// "editor-name.html()" on the thumbnails pages
+	// "piece-author.a.html()" on the home page or piece pages.
+
+function change_to_active(element){
+	console.log("herp derp")
+	if ($(element).hasClass("hat")){
+		$(element).removeClass('inactive');
+		$(element).attr('src', active_hat_url);
+		$(element).addClass('active');
+	}
+	else{
+		$(element).removeClass('inactive');
+		$(element).attr('src', active_star_url);
+		$(element).addClass('active');
+	}
+
+
+	// $(element).siblings().slideDown();
+}
+
+function change_to_inactive(element){
+	if ($(element).hasClass("hat")){
+		$(element).removeClass('active');
+		$(element).attr('src', inactive_hat_url);
+		$(element).addClass('inactive');
+		// $(element).siblings().slideUp();
+	}
+	else{
+		$(element).removeClass('active');
+		$(element).attr('src', inactive_star_url);
+		$(element).addClass('inactive');
+		// $(element).siblings().slideUp();
+	}
+
+}
+
+
+function send_to_background(url){
+	chrome.runtime.sendMessage({question: "addstorage", u: url}, function(response){
+		console.log(response.eval);
+	});
+}
+// // // Authors
+// // var jesture_author = star_html;//"<div height = '34px' id = 'jesture'>" + star_html + "</div>";
+// // $(".author-header").hover(function(){
+// // 	$(this).append(jesture_author);
+// // }, function(){
+// // 	$("#jesture").remove();
+// // });
+//

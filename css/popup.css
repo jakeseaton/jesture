@@ -1,0 +1,45 @@
+.title-container {
+  height: 10%;
+}
+body {
+  height: 500px;
+  width: 500px;
+  overflow: scroll;
+}
+#popup-banner {
+  width: 100%;
+}
+h2.issue-title {
+  font-size: 10px;
+}
+nav {
+  display: inline;
+  text-align: center;
+}
+nav ul {
+  position: relative;
+  display: inline-block !important;
+}
+nav li {
+  display: inline-block !important;
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+  max-width: 20%;
+  border: none;
+}
+nav li a {
+  color: #6a4faf;
+}
+nav li a img {
+  width: 36px;
+  height: 36px;
+}
+nav li.active a {
+  border: none;
+  background-color: #6a4faf;
+  color: #f9dc8b;
+}
+.invisible {
+  display: none;
+}

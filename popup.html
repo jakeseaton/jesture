@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<head>
+  <link href = "bower_components/bootstrap/dist/css/bootstrap.min.css" rel = "stylesheet"></link>
+  <link href = "css/jesture.css" rel = "stylesheet"></link>
+  <script src = "bower_components/jquery/dist/jquery.min.js"></script>
+  <script src = "bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- <script src = "bower_components/jquery-tmpl/jquery.tmpl.min.js"></script>
+  <script src = "bower_components/jquery-offline/lib/jquery.offline.js"></script> -->
+  <script src = "popup.js"></script>
+  <link href = "css/popup.css" rel = "stylesheet"></link>
+
+</head>
+<body>
+<img id = "popup-banner" src = "img/banner-new.png"/>
+<!-- <div>Pieces, Issues, Authors, Comix </div> -->
+<nav>
+  <ul class="nav nav-tabs nav-justified">
+    <li role="presentation" class="active"><a href="#pieces-section" aria-controls = "pieces-section" role = "tab" data-toggle = "tab">Pieces</a></li>
+    <li role="presentation"><a href="#issues-section" aria-controls="issues-section" role="tab" data-toggle="tab">Issues</a></li>
+    <li role="presentation"><a href="#authors-section" aria-controls="authors-section" role="tab" data-toggle="tab">Authors</a></li>
+    <li role="presentation"><a href="#comix-section" aria-controls="comix-section" role="tab" data-toggle="tab">Comix</a></li>
+    <li role = "presentation"><a id = "jesture-page-link" href = "jesture_page.html"><img src = "img/hat_active.png"/></a></li>
+  </ul>
+</nav>
+<div class = "tab-content">
+  <div role="tabpanel" class="tab-pane active" id = "pieces-section">
+    <div class="panel-group" id="accordion1">
+      <div class="panel panel-default template1 invisible">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse20">
+              Dynamic Panel #2 (template panel)
+            </a>
+          </h4>
+
+        </div>
+        <div id="collapse20" class="panel-collapse collapse">
+          <div class="panel-body">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <br /> -->
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id = "issues-section">
+    <div class="panel-group" id="accordion2">
+      <div class="panel panel-default template2 invisible">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse20">
+              Dynamic Panel #2 (template panel)
+            </a>
+          </h4>
+
+        </div>
+        <div id="collapse20" class="panel-collapse collapse">
+          <div class="panel-body">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id = "authors-section">
+    <div class="panel-group" id="accordion3">
+      <div class="panel panel-default template3 invisible">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapse20">
+              Dynamic Panel #2 (template panel)
+            </a>
+          </h4>
+
+        </div>
+        <div id="collapse20" class="panel-collapse collapse">
+          <div class="panel-body">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div role="tabpanel" class="tab-pane" id = "comix-section">
+    <div class="panel-group" id="accordion4">
+      <div class="panel panel-default template4 invisible">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapse20">
+              Dynamic Panel #2 (template panel)
+            </a>
+          </h4>
+
+        </div>
+        <div id="collapse20" class="panel-collapse collapse">
+          <div class="panel-body">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

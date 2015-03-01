@@ -1,0 +1,1 @@
+console.log("currently on the comix page");

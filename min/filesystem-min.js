@@ -1,0 +1,1 @@
+function displayPath(t){chrome.fileSystem.getDisplayPath(t,function(t){console.log(t)})}var dnd=new DnDFileController("body",function(t){var n=t.items[0].webkitGetAsEntry;displayPath(n)});

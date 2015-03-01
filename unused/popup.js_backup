@@ -1,0 +1,225 @@
+/*
+MAKE EACH TAB ORAGNIZE BY THAT THING
+*/
+
+// chrome.storage.sync.get('comix',function(data){
+//   console.log("comix",data);
+//   $("body").append('comix',data);
+// });
+// chrome.storage.sync.get('piece',function(data){
+//   $("body").append('piece',data);
+//   console.log("piece",data);
+// });
+var minusIcon = '<img src = "entypo/circle-with-minus.svg" class = "minus icon inactive"/>';
+// var playIcon = '<img src = "entypo/controller-play.svg" class = "play icon inactive"/>';
+// var cycleIcon = '<img class = "cycle icon inactive" src= "entypo/cycle.svg"/>';
+var downloadIcon = '<img src = "entypo/download.svg" class = "download icon inactive"/>';
+var facebookIcon, twitterIcon;
+var downIcon = '<img class = "down icon inactive" src= "entypo/entypo+/entypo+/chevron-with-circle-down.svg"/>';
+var upIcon = '<img class = "up icon inactive" src= "entypo/entypo+/entypo+/chevron-with-circle-up.svg"/>';
+
+var menuBar = '<div class = "menu">'+upIcon + downIcon+downloadIcon +minusIcon+'</div>';
+
+// listener for changes in chrome.storage
+chrome.storage.onChanged.addListener(function(changes, namespace){
+  console.log("storage was changed");
+  for (var key in changes){
+    var storageChange = changes[key];
+    // UPDATE CONTENT-- rerun the main function
+    // display a loader while we wait?
+    }
+  // main();
+});
+var hash = 1;
+// $(document).ajaxStart(function(){
+//   $("#loading").removeClass("invisible");
+// });
+// $(document).ajaxStop(function(){
+//   $("#loading").addClass("invisible");
+// });
+
+
+$(document).ready(function(){
+  // reset? ()
+
+  chrome.storage.sync.get(["pieces","issues","comix", "authors"], function(data){
+    if (!chrome.runtime.error){
+
+      var pieces_favorites = data.pieces.favorites;
+      var issues_favorites = data.issues.favorites;
+      var comix_favorites = data.comix.favorites;
+      var authors_favorites = data.authors.favorites;
+
+      // append pieces
+      for (i = 1;i<pieces_favorites.length;i++){
+        // get info
+        var pieceObject= pieces_favorites[i];
+        var Author = pieceObject.Author
+        var Title = pieceObject.Title
+        var Url = pieceObject.Url
+        var Img = pieceObject.Img;
+        // var Txt = pieceObject.Txt;
+        // if Img = false
+        // if (Url != "http://harvardlampoon.com/"){
+        //   Url = "http://harvardlampoon.com" + Url;
+        //   // console.log(Url);
+        // }
+        createItem(Url, Title, Author);
+      }// end for pieces
+
+      // append comix
+      for (i = 1;i<comix_favorites.length;i++){
+        comixObject = comix_favorites[i];
+        var path = comixObject.Img
+        // console.log(index);
+        Img = comixObject.Img.split("/")[3];
+
+        var Title
+
+        if (comixObject.Title != false){
+          Title = comixObject.Title;
+        }
+        else {
+          Title = Img.split("_")[0].split("-").join(" ");
+        }
+        console.log(comixObject);
+        // [0].split("-").join(" ");
+        // should capitalize
+        // Img = "covers/"+Img;
+        // could also get the author name from the path name
+        var img_html = "<img src = 'http://harvardlampoon.com"+path+"'/>";
+
+        var $template = $(".template4");
+        var $newPanel = $template.clone();
+        $newPanel.removeClass("template4");
+        // construct
+        $newPanel.removeClass("invisible");
+        $newPanel.find(".collapse").removeClass("in");
+        $newPanel.find(".accordion-toggle").attr("href",  "#" + (++hash))
+                 .text(Title);
+        $newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
+        $newPanel.find(".panel-body").html(img_html);
+        $("#accordion4").prepend($newPanel.fadeIn());
+        // // use the jquery keys function for local storage, to get the value at that location
+        // current_html = '<div class="issue"><div class="issue-cover">'+img_html+'</div><h2 class="issue-title">'+Title+'</h2></div>'
+        // $("#favorite-comix").append(current_html);
+      }
+      // append issues
+      for (i = 1;i<issues_favorites.length;i++){
+        //$("#issues").append(issues_favorites[i].Title);
+        var issueObject = issues_favorites[i];
+        var Img = issueObject.Img
+        var Description = issueObject.Description
+
+        var $template = $(".template2");
+        var $newPanel = $template.clone();
+        $newPanel.removeClass("template2");
+        // construct
+        $newPanel.removeClass("invisible");
+        $newPanel.find(".collapse").removeClass("in");
+        $newPanel.find(".accordion-toggle").attr("href",  "#" + (++hash))
+                 .text(issueObject.Title);
+        $newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
+        $newPanel.find(".panel-body").html(Description);
+        $("#accordion2").prepend($newPanel.fadeIn());
+        // var current_html = '<div class="issue"><div class="issue-cover"><img src='+Img+'></div><h2 class="issue-title">'+issueObject.Title+'</h2></div>'
+        // $("#favorite-issues").append(current_html);
+      }
+      // display pieces by author names
+      for (i = 1; i<authors_favorites.length; i++){
+        var authorObject = authors_favorites[i];
+        var Pieces = authorObject.Pieces
+        console.log(Pieces);
+        var Name = authorObject.Name
+        var $template = $(".template3");
+        var $newPanel = $template.clone();
+        $newPanel.removeClass("template3");
+        // construct
+        $newPanel.removeClass("invisible");
+        $newPanel.find(".collapse").removeClass("in");
+        $newPanel.find(".accordion-toggle").attr("href",  "#" + (++hash))
+                 .text(Name);
+        $newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
+        $newPanel.find(".panel-body").html(Pieces);
+        $("#accordion3").prepend($newPanel.fadeIn());
+      }
+      // do authors
+    } // end check for error
+
+    else {
+      alert("an error occurred");
+    }
+    // for (i = 1;i<authors_favorites.length;i++){
+    //   $("#pieces").append(authors_favorites[i].Title);
+    // }
+    // $("#issues").append(issues_favorites[i].Title);
+    // $("#comix").append(comix_favorites[0]);
+    // $("#authors").append(authors_favorites[0]);
+
+  });
+  $("#jesture-page-link").each(function(){
+    $(this).click(function(e){
+      e.preventDefault()
+
+      var destination = $(this).attr("href")
+      chrome.tabs.getSelected(null,function(tab){
+        console.log(tab);
+        chrome.tabs.update(tab.id,{url:destination});
+      });
+    });
+  });// end jesture page link
+});// end main
+
+function ajax_pieces(Url, Title, Author){
+  // jQuery.retrieveJSON(Url, function call(json,status){
+  //   console.log("called it")
+  //   console.log(json);
+  //   console.log(data);
+  //      var txt = $(data).find(".piece-text-container").find("h2").html();
+  //      var $template = $(".template1");
+  //      var $newPanel = $template.clone();
+  //      $newPanel.removeClass("template1");
+  //      // construct
+  //      $newPanel.removeClass("invisible");
+  //      $newPanel.find(".collapse").removeClass("in");
+  //      $newPanel.find(".accordion-toggle").attr("href",  "#" + (++hash))
+  //               .text(Title+" "+Author);
+  //      $newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
+  //      $newPanel.find(".panel-body").html(txt);
+  //      $("#accordion1").prepend($newPanel.fadeIn());
+  // });
+
+  $.ajax(Url, {
+    success: function(data){
+      var txt = $(data).find(".piece-text-container").find("h2").html();
+      var $template = $(".template1");
+      var $newPanel = $template.clone();
+      $newPanel.removeClass("template1");
+      // construct
+      $newPanel.removeClass("invisible");
+      $newPanel.find(".collapse").removeClass("in");
+      $newPanel.find(".accordion-toggle").attr("href",  "#" + (++hash))
+               .text(Title+" "+Author);
+      $newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
+      $newPanel.find(".panel-body").html(txt);
+      $("#accordion1").prepend($newPanel.fadeIn());
+    }
+  });
+}
+function createItem(u, Title, Author){
+  console.log(u)
+  console.log(localStorage)
+  var txt = localStorage.getItem(u)
+  console.log(txt);
+  var $template = $(".template1");
+  var $newPanel = $template.clone();
+  $newPanel.removeClass("template1");
+  // construct
+  $newPanel.removeClass("invisible");
+  $newPanel.find(".collapse").removeClass("in");
+  $newPanel.find(".accordion-toggle").attr("href",  "#" + (++hash))
+           .text(Title+" "+Author);
+  $newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
+  $newPanel.find(".panel-body").html(txt);
+  $("#accordion1").prepend($newPanel.fadeIn());
+}
