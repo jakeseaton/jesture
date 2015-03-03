@@ -1,11 +1,39 @@
+.panel-body p {
+  margin-left: 10%;
+  margin-right: 10%;
+}
 #jesture-container {
   text-align: center;
 }
 #jesture {
   display: inline-block;
 }
+#partition {
+  width: 75%;
+  background-color: #fff;
+  margin-right: auto;
+  margin-left: auto;
+  border: 1px solid #000;
+}
+#partition h2 {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+}
+#partition h2 p {
+  padding: 5;
+}
+#partition img {
+  display: inherit;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 50%;
+}
+#partition .grid {
+  padding-top: 30px;
+}
 .invisible {
-  opacity: 0;
+  display: none;
 }
 .star,
 #plus,
@@ -13,11 +41,11 @@
 .icon {
   height: 36px !important;
   width: 36px !important;
-  -webkit-transition: opacity 0.25s;
-  -moz-transition: opacity 0.25s;
-  -ms-transition: opacity 0.25s;
-  -o-transition: opacity 0.25s;
-  transition: opacity 0.25s;
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
   cursor: pointer;
 }
 .hat {
@@ -45,6 +73,9 @@
 .menu {
   width: 100%;
   text-align: center;
+}
+h4.panel-title {
+  padding: 5px;
 }
 /*
 .icon-courses-star {
@@ -187,11 +218,11 @@ body #submenu {
   -moz-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
-  -webkit-transition: opacity all 0.25s ease;
-  -moz-transition: opacity all 0.25s ease;
-  -ms-transition: opacity all 0.25s ease;
-  -o-transition: opacity all 0.25s ease;
-  transition: opacity all 0.25s ease;
+  -webkit-transition: all all 0.25s ease ease;
+  -moz-transition: all all 0.25s ease ease;
+  -ms-transition: all all 0.25s ease ease;
+  -o-transition: all all 0.25s ease ease;
+  transition: all all 0.25s ease ease;
   height: 0px;
   background: #fff;
   -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
@@ -214,11 +245,11 @@ body #submenu .larger-container {
   -moz-transition: left 0.25s ease;
   -ms-transition: left 0.25s ease;
   -o-transition: left 0.25s ease;
-  -webkit-transition: opacity left 0.25s ease;
-  -moz-transition: opacity left 0.25s ease;
-  -ms-transition: opacity left 0.25s ease;
-  -o-transition: opacity left 0.25s ease;
-  transition: opacity left 0.25s ease;
+  -webkit-transition: all left 0.25s ease ease;
+  -moz-transition: all left 0.25s ease ease;
+  -ms-transition: all left 0.25s ease ease;
+  -o-transition: all left 0.25s ease ease;
+  transition: all left 0.25s ease ease;
   width: 200%;
   position: absolute;
   left: 0%;
@@ -393,11 +424,11 @@ body #header #menubar .menubar-tabs #search-menu {
   -moz-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
-  -webkit-transition: opacity all 0.25s ease;
-  -moz-transition: opacity all 0.25s ease;
-  -ms-transition: opacity all 0.25s ease;
-  -o-transition: opacity all 0.25s ease;
-  transition: opacity all 0.25s ease;
+  -webkit-transition: all all 0.25s ease ease;
+  -moz-transition: all all 0.25s ease ease;
+  -ms-transition: all all 0.25s ease ease;
+  -o-transition: all all 0.25s ease ease;
+  transition: all all 0.25s ease ease;
 }
 body #header #menubar .menubar-tabs #search-menu:hover {
   cursor: pointer;
@@ -414,11 +445,11 @@ body #header #menubar .menubar-tabs .tab-container {
   -moz-transition: border-bottom 0.25s ease;
   -ms-transition: border-bottom 0.25s ease;
   -o-transition: border-bottom 0.25s ease;
-  -webkit-transition: opacity border-bottom 0.25s ease;
-  -moz-transition: opacity border-bottom 0.25s ease;
-  -ms-transition: opacity border-bottom 0.25s ease;
-  -o-transition: opacity border-bottom 0.25s ease;
-  transition: opacity border-bottom 0.25s ease;
+  -webkit-transition: all border-bottom 0.25s ease ease;
+  -moz-transition: all border-bottom 0.25s ease ease;
+  -ms-transition: all border-bottom 0.25s ease ease;
+  -o-transition: all border-bottom 0.25s ease ease;
+  transition: all border-bottom 0.25s ease ease;
   float: left;
   margin: auto;
   width: 20%;
@@ -446,11 +477,11 @@ body #header #menubar .menubar-tabs .tab-container h3 {
   -moz-transition: top 0.25s ease;
   -ms-transition: top 0.25s ease;
   -o-transition: top 0.25s ease;
-  -webkit-transition: opacity top 0.25s ease;
-  -moz-transition: opacity top 0.25s ease;
-  -ms-transition: opacity top 0.25s ease;
-  -o-transition: opacity top 0.25s ease;
-  transition: opacity top 0.25s ease;
+  -webkit-transition: all top 0.25s ease ease;
+  -moz-transition: all top 0.25s ease ease;
+  -ms-transition: all top 0.25s ease ease;
+  -o-transition: all top 0.25s ease ease;
+  transition: all top 0.25s ease ease;
   color: #3d3d3d;
   position: absolute;
   top: 21px;
@@ -464,11 +495,11 @@ h1 {
   -moz-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
-  -webkit-transition: opacity all 0.25s ease;
-  -moz-transition: opacity all 0.25s ease;
-  -ms-transition: opacity all 0.25s ease;
-  -o-transition: opacity all 0.25s ease;
-  transition: opacity all 0.25s ease;
+  -webkit-transition: all all 0.25s ease ease;
+  -moz-transition: all all 0.25s ease ease;
+  -ms-transition: all all 0.25s ease ease;
+  -o-transition: all all 0.25s ease ease;
+  transition: all all 0.25s ease ease;
   font-weight: normal;
   font-size: 1.2em;
   text-align: center;
@@ -552,11 +583,11 @@ h3 {
   -moz-transition: color 0.25s ease;
   -ms-transition: color 0.25s ease;
   -o-transition: color 0.25s ease;
-  -webkit-transition: opacity color 0.25s ease;
-  -moz-transition: opacity color 0.25s ease;
-  -ms-transition: opacity color 0.25s ease;
-  -o-transition: opacity color 0.25s ease;
-  transition: opacity color 0.25s ease;
+  -webkit-transition: all color 0.25s ease ease;
+  -moz-transition: all color 0.25s ease ease;
+  -ms-transition: all color 0.25s ease ease;
+  -o-transition: all color 0.25s ease ease;
+  transition: all color 0.25s ease ease;
   margin: 0 auto;
   text-align: center;
   float: center;
@@ -639,22 +670,22 @@ p {
   -moz-transition: margin 0.25s ease;
   -ms-transition: margin 0.25s ease;
   -o-transition: margin 0.25s ease;
-  -webkit-transition: opacity margin 0.25s ease;
-  -moz-transition: opacity margin 0.25s ease;
-  -ms-transition: opacity margin 0.25s ease;
-  -o-transition: opacity margin 0.25s ease;
-  transition: opacity margin 0.25s ease;
+  -webkit-transition: all margin 0.25s ease ease;
+  -moz-transition: all margin 0.25s ease ease;
+  -ms-transition: all margin 0.25s ease ease;
+  -o-transition: all margin 0.25s ease ease;
+  transition: all margin 0.25s ease ease;
 }
 .issues-index .issue .issue-cover {
   -webkit-transition: all 0.25s ease;
   -moz-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
-  -webkit-transition: opacity all 0.25s ease;
-  -moz-transition: opacity all 0.25s ease;
-  -ms-transition: opacity all 0.25s ease;
-  -o-transition: opacity all 0.25s ease;
-  transition: opacity all 0.25s ease;
+  -webkit-transition: all all 0.25s ease ease;
+  -moz-transition: all all 0.25s ease ease;
+  -ms-transition: all all 0.25s ease ease;
+  -o-transition: all all 0.25s ease ease;
+  transition: all all 0.25s ease ease;
 }
 .issues-index .issue a {
   text-decoration: none;
@@ -677,11 +708,11 @@ p {
   -moz-transition: opacity 0.25s ease;
   -ms-transition: opacity 0.25s ease;
   -o-transition: opacity 0.25s ease;
-  -webkit-transition: opacity opacity 0.25s ease;
-  -moz-transition: opacity opacity 0.25s ease;
-  -ms-transition: opacity opacity 0.25s ease;
-  -o-transition: opacity opacity 0.25s ease;
-  transition: opacity opacity 0.25s ease;
+  -webkit-transition: all opacity 0.25s ease ease;
+  -moz-transition: all opacity 0.25s ease ease;
+  -ms-transition: all opacity 0.25s ease ease;
+  -o-transition: all opacity 0.25s ease ease;
+  transition: all opacity 0.25s ease ease;
   width: 20px;
   height: 100%;
   float: left;
@@ -746,11 +777,11 @@ p {
   -moz-transition: background 0.25s ease;
   -ms-transition: background 0.25s ease;
   -o-transition: background 0.25s ease;
-  -webkit-transition: opacity background 0.25s ease;
-  -moz-transition: opacity background 0.25s ease;
-  -ms-transition: opacity background 0.25s ease;
-  -o-transition: opacity background 0.25s ease;
-  transition: opacity background 0.25s ease;
+  -webkit-transition: all background 0.25s ease ease;
+  -moz-transition: all background 0.25s ease ease;
+  -ms-transition: all background 0.25s ease ease;
+  -o-transition: all background 0.25s ease ease;
+  transition: all background 0.25s ease ease;
   width: 90%;
   text-align: left;
   margin: 10px auto;
@@ -894,11 +925,11 @@ body #submenu {
   -moz-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
-  -webkit-transition: opacity all 0.25s ease;
-  -moz-transition: opacity all 0.25s ease;
-  -ms-transition: opacity all 0.25s ease;
-  -o-transition: opacity all 0.25s ease;
-  transition: opacity all 0.25s ease;
+  -webkit-transition: all all 0.25s ease ease;
+  -moz-transition: all all 0.25s ease ease;
+  -ms-transition: all all 0.25s ease ease;
+  -o-transition: all all 0.25s ease ease;
+  transition: all all 0.25s ease ease;
   height: 0px;
   background: #fff;
   -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
@@ -921,11 +952,11 @@ body #submenu .larger-container {
   -moz-transition: left 0.25s ease;
   -ms-transition: left 0.25s ease;
   -o-transition: left 0.25s ease;
-  -webkit-transition: opacity left 0.25s ease;
-  -moz-transition: opacity left 0.25s ease;
-  -ms-transition: opacity left 0.25s ease;
-  -o-transition: opacity left 0.25s ease;
-  transition: opacity left 0.25s ease;
+  -webkit-transition: all left 0.25s ease ease;
+  -moz-transition: all left 0.25s ease ease;
+  -ms-transition: all left 0.25s ease ease;
+  -o-transition: all left 0.25s ease ease;
+  transition: all left 0.25s ease ease;
   width: 200%;
   position: absolute;
   left: 0%;
@@ -1100,11 +1131,11 @@ body #header #menubar .menubar-tabs #search-menu {
   -moz-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
-  -webkit-transition: opacity all 0.25s ease;
-  -moz-transition: opacity all 0.25s ease;
-  -ms-transition: opacity all 0.25s ease;
-  -o-transition: opacity all 0.25s ease;
-  transition: opacity all 0.25s ease;
+  -webkit-transition: all all 0.25s ease ease;
+  -moz-transition: all all 0.25s ease ease;
+  -ms-transition: all all 0.25s ease ease;
+  -o-transition: all all 0.25s ease ease;
+  transition: all all 0.25s ease ease;
 }
 body #header #menubar .menubar-tabs #search-menu:hover {
   cursor: pointer;
@@ -1121,11 +1152,11 @@ body #header #menubar .menubar-tabs .tab-container {
   -moz-transition: border-bottom 0.25s ease;
   -ms-transition: border-bottom 0.25s ease;
   -o-transition: border-bottom 0.25s ease;
-  -webkit-transition: opacity border-bottom 0.25s ease;
-  -moz-transition: opacity border-bottom 0.25s ease;
-  -ms-transition: opacity border-bottom 0.25s ease;
-  -o-transition: opacity border-bottom 0.25s ease;
-  transition: opacity border-bottom 0.25s ease;
+  -webkit-transition: all border-bottom 0.25s ease ease;
+  -moz-transition: all border-bottom 0.25s ease ease;
+  -ms-transition: all border-bottom 0.25s ease ease;
+  -o-transition: all border-bottom 0.25s ease ease;
+  transition: all border-bottom 0.25s ease ease;
   float: left;
   margin: auto;
   width: 20%;
@@ -1153,11 +1184,11 @@ body #header #menubar .menubar-tabs .tab-container h3 {
   -moz-transition: top 0.25s ease;
   -ms-transition: top 0.25s ease;
   -o-transition: top 0.25s ease;
-  -webkit-transition: opacity top 0.25s ease;
-  -moz-transition: opacity top 0.25s ease;
-  -ms-transition: opacity top 0.25s ease;
-  -o-transition: opacity top 0.25s ease;
-  transition: opacity top 0.25s ease;
+  -webkit-transition: all top 0.25s ease ease;
+  -moz-transition: all top 0.25s ease ease;
+  -ms-transition: all top 0.25s ease ease;
+  -o-transition: all top 0.25s ease ease;
+  transition: all top 0.25s ease ease;
   color: #3d3d3d;
   position: absolute;
   top: 21px;
@@ -1171,11 +1202,11 @@ h1 {
   -moz-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
-  -webkit-transition: opacity all 0.25s ease;
-  -moz-transition: opacity all 0.25s ease;
-  -ms-transition: opacity all 0.25s ease;
-  -o-transition: opacity all 0.25s ease;
-  transition: opacity all 0.25s ease;
+  -webkit-transition: all all 0.25s ease ease;
+  -moz-transition: all all 0.25s ease ease;
+  -ms-transition: all all 0.25s ease ease;
+  -o-transition: all all 0.25s ease ease;
+  transition: all all 0.25s ease ease;
   font-weight: normal;
   font-size: 1.2em;
   text-align: center;
@@ -1259,11 +1290,11 @@ h3 {
   -moz-transition: color 0.25s ease;
   -ms-transition: color 0.25s ease;
   -o-transition: color 0.25s ease;
-  -webkit-transition: opacity color 0.25s ease;
-  -moz-transition: opacity color 0.25s ease;
-  -ms-transition: opacity color 0.25s ease;
-  -o-transition: opacity color 0.25s ease;
-  transition: opacity color 0.25s ease;
+  -webkit-transition: all color 0.25s ease ease;
+  -moz-transition: all color 0.25s ease ease;
+  -ms-transition: all color 0.25s ease ease;
+  -o-transition: all color 0.25s ease ease;
+  transition: all color 0.25s ease ease;
   margin: 0 auto;
   text-align: center;
   float: center;
@@ -1394,11 +1425,11 @@ body {
   -moz-transition: all 0.5s ease;
   -ms-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
-  -webkit-transition: opacity all 0.5s ease;
-  -moz-transition: opacity all 0.5s ease;
-  -ms-transition: opacity all 0.5s ease;
-  -o-transition: opacity all 0.5s ease;
-  transition: opacity all 0.5s ease;
+  -webkit-transition: all all 0.5s ease ease;
+  -moz-transition: all all 0.5s ease ease;
+  -ms-transition: all all 0.5s ease ease;
+  -o-transition: all all 0.5s ease ease;
+  transition: all all 0.5s ease ease;
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   -ms-transform: scale(1);
@@ -1461,11 +1492,11 @@ body {
   -moz-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
-  -webkit-transition: opacity all 0.25s ease;
-  -moz-transition: opacity all 0.25s ease;
-  -ms-transition: opacity all 0.25s ease;
-  -o-transition: opacity all 0.25s ease;
-  transition: opacity all 0.25s ease;
+  -webkit-transition: all all 0.25s ease ease;
+  -moz-transition: all all 0.25s ease ease;
+  -ms-transition: all all 0.25s ease ease;
+  -o-transition: all all 0.25s ease ease;
+  transition: all all 0.25s ease ease;
   position: absolute;
   top: -150px;
   width: 100%;
@@ -1499,12 +1530,4 @@ body {
 }
 a {
   text-decoration: none;
-}
-#parition {
-  width: 50%;
-  background-color: #f00 !important;
-  height: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  position: absolute;
 }

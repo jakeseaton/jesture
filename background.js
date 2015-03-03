@@ -2,26 +2,18 @@
 // Developed by: Jake Seaton
 // Quincy-Dewolfe 20-05
 
-// listen for change of the current tab
-// changing the url in the current tab
-// chrome.tabs.onActivated.addListener(function(activeInfo){
-// 	console.log(activeInfo.url);
-// 	//chrome.tabs.active
-// 	/// console.log("active info:" + chrome.tabs.activeInfo.tabId);
-// 	// do things with the new URL
-// 	// fires when the active tab for a window changes. URL's may not be set at the
-// 	// time the event fired, but listen to onUpdated events to be notified when
-// 	// a url is set.
-// });
-//
 
-// listen to storage changes!
+// if there's nothing in local storage, i.e. the first time on a new device.
+if (!localStorage.length)
+	chrome.storage.sync.get(function(data){
+		for (item in data){
+			var curr = data[item]
+			if (curr.Type == "piece"){
+				store_piece(curr.Url, curr.Title)
+			}
+		}
+	});
 
-// Uncomment to clear storage
-function clear_all(){
-	chrome.storage.sync.clear();
-	localStorage.clear();
-}
 
 // Tell the content script what to do
 chrome.runtime.onMessage.addListener(
@@ -54,36 +46,7 @@ chrome.runtime.onMessage.addListener(
 			sendResponse({eval:"success! added"});
 
 		}
-		// else if (request.question =="newpage"){
-		// 	var Url = request.u;
-		// 	$.ajax(Url, {
-		// 		success: function(data){
-		// 			localStorage.setItem(Url, data);
-		// 			chrome.tabs.create({url:"jesture_page2.html"});
-		//
-		// 		}
-		// 	});
-		// }
-		// else if (request.question =="addstorage"){
-		// 	try{
-		// 			localStorage.setItem(request.key, request.val);
-		// 			sendResponse({eval:"success! added"});
-		// 			console.log(localStorage);
-		// 			// SEND A MESSAGE TO THE JESTUREPAGE TO WORK PROPERLY
-		// 	}catch (e){
-		// 		if (e == "QUOTE_EXCEEDED_ERR"){
-		// 			alert("Quote exceeded!");
-		// 		}
-		// 	}
-		// }
-		// else if (request.question === "deletestorage"){
-		// 	localStorage.removeItem(request.key);
-		// 	sendResponse({eval:"success! deleted"});
-		// 	console.log(localStorage);
-		// }//
-		// if (request.question == "getStorage"){
-		// 	sendResponse({storage:"hello"});
-		// }
+
  });
 
 
@@ -104,63 +67,91 @@ chrome.browserAction.onClicked.addListener(function(tab){
 	});
 });
 
-// Initialize storage on first run
-chrome.storage.sync.get(["pieces", "comix", "issues", "authors", "feed", "Hash"],function initialize(data){
-		if (!chrome.runtime.error){
-			if (!data.Hash){
-				chrome.storage.sync.set({"Hash":1})
-			}
-			// if we haven't already initialized the array
-			if (! data.pieces){
-					chrome.storage.sync.set({pieces:{favorites:["placeholder"]}}, function(){});
-			}
-			else{
-				favoritePieces = data.pieces.favorites;
-				for (piece in favoritePieces){
-					currentPiece = favoritePieces[piece];
-					// console.log(currentPiece.Url);
-					// currentPieceUrl = curent
-					// is this going to do it for the same piece multiple times?
-					// if it hasn't been cached on this computer,cache it
 
-					if (!(localStorage.getItem(currentPiece.Url))){
-						store_piece(currentPiece.Url);
-					}
-					// else it has
-				}
-			}
-			if (! data.comix){
-				// can get rid of this and use the 0th index!
-				chrome.storage.sync.set({comix:{favorites:["placeholder"]}}, function(){});
-			}
-			if (! data.issues){
-				chrome.storage.sync.set({issues:{favorites:["placeholder"]}}, function(){});
-			}
-			if (! data.authors){
-				chrome.storage.sync.set({authors:{favorites:["placeholder"]}}, function(){});
-			}
-			if (! data.feed){
-				chrome.storage.sync.set({feed:[]}, function(){
-				});
-			}
-			// else make sure we have the url
-			// this can probably be made more effecient
-			else {
-				Feed = data.feed
-				for (item in Feed){
-					if (Feed[item].Type == "piece"){
-						curr = Feed[item]
-						if (!(localStorage.getItem(curr.Title))){
-							store_piece(curr.Url, curr.Title);
-						}
+function clear_all(){
+	chrome.storage.sync.clear();
+	localStorage.clear();
+}
+
+// AJAX Calls
+function store_piece(Url, Title){
+	$.ajax(Url, {
+		success: function(data){
+			// console.log(data);
+			var text_container = $(data).find(".piece-text-container").find("h2").html()
+			console.log(text_container)
+			try{
+						localStorage.setItem(Title, text_container);
+						console.log(localStorage);
+						// SEND A MESSAGE TO THE JESTUREPAGE TO WORK PROPERLY
+				}catch (e){
+					if (e == "QUOTE_EXCEEDED_ERR"){
+						alert("Quote exceeded!");
 					}
 				}
-			}
-	}
-	else{
-		alert("there was an error!");
-	}
-});
+		}
+	});
+}
+
+/* UNUSED CODE */
+
+// // Initialize storage on first run
+// chrome.storage.sync.get(["pieces", "comix", "issues", "authors", "feed", "Hash"],function initialize(data){
+// 		if (!chrome.runtime.error){
+// 			if (!data.Hash){
+// 				chrome.storage.sync.set({"Hash":1})
+// 			}
+// 			// if we haven't already initialized the array
+// 			if (! data.pieces){
+// 					chrome.storage.sync.set({pieces:{favorites:["placeholder"]}}, function(){});
+// 			}
+// 			else{
+// 				favoritePieces = data.pieces.favorites;
+// 				for (piece in favoritePieces){
+// 					currentPiece = favoritePieces[piece];
+// 					// console.log(currentPiece.Url);
+// 					// currentPieceUrl = curent
+// 					// is this going to do it for the same piece multiple times?
+// 					// if it hasn't been cached on this computer,cache it
+
+// 					if (!(localStorage.getItem(currentPiece.Url))){
+// 						store_piece(currentPiece.Url);
+// 					}
+// 					// else it has
+// 				}
+// 			}
+// 			if (! data.comix){
+// 				// can get rid of this and use the 0th index!
+// 				chrome.storage.sync.set({comix:{favorites:["placeholder"]}}, function(){});
+// 			}
+// 			if (! data.issues){
+// 				chrome.storage.sync.set({issues:{favorites:["placeholder"]}}, function(){});
+// 			}
+// 			if (! data.authors){
+// 				chrome.storage.sync.set({authors:{favorites:["placeholder"]}}, function(){});
+// 			}
+// 			if (! data.feed){
+// 				chrome.storage.sync.set({feed:[]}, function(){
+// 				});
+// 			}
+// 			// else make sure we have the url
+// 			// this can probably be made more effecient
+// 			else {
+// 				Feed = data.feed
+// 				for (item in Feed){
+// 					if (Feed[item].Type == "piece"){
+// 						curr = Feed[item]
+// 						if (!(localStorage.getItem(curr.Title))){
+// 							store_piece(curr.Url, curr.Title);
+// 						}
+// 					}
+// 				}
+// 			}
+// 	}
+// 	else{
+// 		alert("there was an error!");
+// 	}
+// });
 
 // if (localStorage.length ==0 ){
 //
@@ -239,21 +230,34 @@ chrome.storage.sync.get(["pieces", "comix", "issues", "authors", "feed", "Hash"]
 // 		console.log("Not on Lampoon site. On: ", tab.url);
 // 	}
 // })
-function store_piece(Url, Title){
-	$.ajax(Url, {
-		success: function(data){
-			// console.log(data);
-			var text_container = $(data).find(".piece-text-container").find("h2").html()
-			console.log(text_container)
-			try{
-						localStorage.setItem(Title, text_container);
-						console.log(localStorage);
-						// SEND A MESSAGE TO THE JESTUREPAGE TO WORK PROPERLY
-				}catch (e){
-					if (e == "QUOTE_EXCEEDED_ERR"){
-						alert("Quote exceeded!");
-					}
-				}
-		}
-	});
-}
+// clear all
+// else if (request.question =="newpage"){
+// 	var Url = request.u;
+// 	$.ajax(Url, {
+// 		success: function(data){
+// 			localStorage.setItem(Url, data);
+// 			chrome.tabs.create({url:"jesture_page2.html"});
+//
+// 		}
+// 	});
+// }
+// else if (request.question =="addstorage"){
+// 	try{
+// 			localStorage.setItem(request.key, request.val);
+// 			sendResponse({eval:"success! added"});
+// 			console.log(localStorage);
+// 			// SEND A MESSAGE TO THE JESTUREPAGE TO WORK PROPERLY
+// 	}catch (e){
+// 		if (e == "QUOTE_EXCEEDED_ERR"){
+// 			alert("Quote exceeded!");
+// 		}
+// 	}
+// }
+// else if (request.question === "deletestorage"){
+// 	localStorage.removeItem(request.key);
+// 	sendResponse({eval:"success! deleted"});
+// 	console.log(localStorage);
+// }//
+// if (request.question == "getStorage"){
+// 	sendResponse({storage:"hello"});
+// }

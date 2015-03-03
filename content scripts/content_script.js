@@ -50,21 +50,21 @@ chrome.storage.onChanged.addListener(function(changes, namespace){
 
 });
 
-// this is always the next index at which to stick things.
-Hash = 0
+// // this is always the next index at which to stick things.
+// Hash = 0
 
-// this contains all of the current information
-var ALL_DATA = []
+// // this contains all of the current information
+// var ALL_DATA = []
 
-chrome.storage.sync.get(function accumulate(data){
-	console.log(data)
-	for (i in data){
-		Hash++;
-		ALL_DATA.push(data[i]);
-	}
-	console.log(Hash);
-	console.log(ALL_DATA);
-});
+// chrome.storage.sync.get(function accumulate(data){
+// 	console.log(data)
+// 	for (i in data){
+// 		Hash++;
+// 		ALL_DATA.push(data[i]);
+// 	}
+// 	console.log(Hash);
+// 	console.log(ALL_DATA);
+// });
 
 // switch over url
 chrome.runtime.sendMessage({question:"what is the current url?"}, function main(response){
@@ -107,7 +107,10 @@ chrome.runtime.sendMessage({question:"what is the current url?"}, function main(
 	}
 });
 
-
+// function update_index(str){
+// 	temp = 1 + parseInt(str)
+// 	return temp.toString();
+// }
 
 function main_home(){
 	// crawl_lampoon(currentUrl);
@@ -115,75 +118,50 @@ function main_home(){
 	// ALSO DO STAFF PICKS
 }
 
-function updateAllData(){
-	ALL_DATA = [];
-	Hash = 0;
-	chrome.storage.sync.get(function update(data){
-		for (i in data){
-			Hash++
-			ALL_DATA.push(data[i]);
-		}
-	});
-}
+// function updateAllData(){
+// 	ALL_DATA = [];
+// 	Hash = 0;
+// 	chrome.storage.sync.get(function update(data){
+// 		for (i in data){
+// 			Hash++
+// 			ALL_DATA.push(data[i]);
+// 		}
+// 	});
+// }
 
 function main_piece(){
-	// maybe make it appear next to the title?
-	// there is only one piece
-
-	// chrome.runtime.sendMessage({question: "newpage", u: currentUrl}, function(response){
-	// 	console.log(response.eval);
-	// });
-	// console.log(document.links);
 	var Feed = [];
 	var piecesArray = [];
-	for (i in ALL_DATA){
-		for (j in ALL_DATA[i]){
-			curr = ALL_DATA[i][j]
-			if (curr.Type = "piece"){
-				piecesArray.push(curr);
+	chrome.storage.sync.get(function(data){
+		if (!chrome.runtime.error){
+			for (i in data){
+				curr = data[i]
+				if (curr.Type == "piece"){
+					piecesArray.push(curr.Title)
+				}
+			}
+
+		$(".piece-text-container").each(function(){
+		var curr_title = $('.piece-title').html();
+		if (($.inArray(curr_title, piecesArray)) != -1){
+			if ($(this).has('#jesture-container').length == 0){
+				$(this).prepend(jesture_star_active);
 			}
 		}
-	}
-	var INDEX = Hash.toString()
-	console.log(INDEX)
-
-	chrome.storage.sync.get(INDEX, function assign(data){
-		console.log(data);
-		if (!chrome.runtime.error){
-			// Feed = data.feed
-			for (item in Feed){
-				if (Feed[item].Type =="piece"){
-				}
+		else{
+			// if there isn't already a star there
+			if ($(this).has("#jesture-container").length == 0){
+				$(this).prepend(jesture_star_inactive);
 			}
-			$(".piece-text-container").each(function(){
-				// need to get the current piece title, not just the home page
-				var curr_title = $('.piece-title').html();
-				// if it's in the array of titles
-				if (($.inArray(curr_title, piecesArray)) != -1){
+		}
+		});
 
-					// if there isn't already a star there
-					if ($(this).has('#jesture-container').length == 0){
-						// add the bright star
-						$(this).prepend(jesture_star_active);
-					}
-				}
-				else{
 
-					//it's not currently a favorit
 
-					// if there isn't already a star there
-					if ($(this).has("#jesture-container").length == 0){
-						// add the dull star
-						$(this).prepend(jesture_star_inactive);
-						// $(this).find('.arrow-link').slideUp();
-					}
-				}
-			});
 			$(".star").click(function(){
 				var piece = {};
 				piece.Type = "piece";
-
-				// What about when they favorite american dog off the home page?
+				// home page?
 				var header = $(".piece-header");
 				// var text = $("h2").html();
 				var Img
@@ -203,29 +181,57 @@ function main_piece(){
 				piece.Author = Author;
 				piece.Url = currentUrl;
 				piece.Img = Img;
-				send_to_background(currentUrl);
-
+				// piece.hashString = INDEX
+				// console.log(piece)
+				// send_to_background(currentUrl);
 				if ($(this).hasClass("inactive")){
 					// initialize the piece object
+					console.log(piece);
 					piecesArray.push(piece.Title);
-					Feed.push(piece);
-					chrome.storage.sync.set({"feed":Feed});
+					var to_save = {};
+					send_to_background(currentUrl)
+					to_save[currentUrl] = piece
+					// Feed.push(piece);
+					chrome.storage.sync.set(to_save, function(){
+						chrome.storage.sync.get(function(data){
+							console.log(data);
+						});
+					});
+					// Hash++;
+					// INDEX = update_index(INDEX);
+					// console.log(INDEX);
 					change_to_active(this);
 				}
-				else{
-					var index_to_remove = Feed.indexOf(piece);
-					Feed.splice(index_to_remove, 1);
-					chrome.storage.sync.set({"feed":Feed});
-					console.log("removed from storage");
+
+				else{//problem
+					// var index_to_remove = Feed.indexOf(piece);
+					// Feed.splice(index_to_remove, 1);
+					// // chrome.storage.sync.set({"feed":Feed});
+					// console.log("removed from storage");
 					index_to_remove = piecesArray.indexOf(piece.Title);
-					piecesArray.splice(index_to_remove, 1)
+					piecesArray.splice(index_to_remove, 1);
+					// console.log(objectsArray)
+					// item = objectsArray[index_to_remove]
+					// console.log(item)
+					// console.log(storage_to_remove)
+					chrome.storage.sync.remove(piece.Url);
+					chrome.storage.sync.get(function display(data){
+						console.log(data);
+					})
+					// chrome storage removed
 					change_to_inactive(this);
 					// delete it from storage
 				}
 			});
 		}
-		else {alert("there was an error")}
+		else {
+			alert("an error occurred")
+		}
 	});
+
+	// var INDEX = Hash.toString()
+	// console.log(INDEX)
+
 }// end main
 
 
@@ -233,12 +239,11 @@ function main_thumbnails(){
 	var Feed = [];
 	var piecesArray = [];
 
-	chrome.storage.sync.get("feed", function assign(data){
+	chrome.storage.sync.get(function assign(data){
 		if (!chrome.runtime.error){
-			Feed = data.feed
-			for (item in Feed){
-				if (Feed[item].Type =="piece"){
-					piecesArray.push(Feed[item].Title);
+			for (item in data){
+				if (data[item].Type =="piece"){
+					piecesArray.push(data[item].Title);
 				}
 			}
 			$('.info-bar').each(function(){
@@ -300,15 +305,16 @@ function main_thumbnails(){
 				send_to_background(Url);
 
 				if ($(this).hasClass("inactive")){
-					Feed.push(piece);
-					chrome.storage.sync.set({"feed":Feed})
+					var to_save = {}
+					to_save[Url] = piece
+					chrome.storage.sync.set(to_save)
 					piecesArray.push(piece.Title);
 					change_to_active(this);
 				}
 				else{
 					var index_to_remove = Feed.indexOf(piece);
 					Feed.splice(index_to_remove, 1);
-					chrome.storage.sync.set({"feed":Feed});
+					chrome.storage.sync.remove(Url);
 					console.log("removed from storage");
 					index_to_remove = piecesArray.indexOf(piece.Title);
 					piecesArray.splice(index_to_remove, 1)
@@ -316,24 +322,20 @@ function main_thumbnails(){
 
 				}
 
-			});// end star functionality
+			});// end star
 		}
 		else {alert("there was an error")}
 	});
 
-
-
 }// end main
 
 function main_comix_home(){
-	var Feed = [];
 	var comixArray = [];
-	chrome.storage.sync.get("feed", function assign(data){
+	chrome.storage.sync.get(function assign(data){
 	  if (!chrome.runtime.error){
-	    Feed = data.feed
-			for (item in Feed){
-				if (Feed[item].Type = "comix"){
-					comixArray.push(Feed[item].Img);
+			for (item in data){
+				if (data[item].Type = "comix"){
+					comixArray.push(data[item].Img);
 				}
 			}
 			$('.comic-container').each(function(){
@@ -376,16 +378,14 @@ function main_comix_home(){
 				comix.Url = Url;
 
 				if ($(this).hasClass("inactive")){
-					Feed.push(comix);
-					chrome.storage.sync.set({"feed":Feed});
+					var to_save = {}
+					to_save[Url] = comix
+					chrome.storage.sync.set(to_save);
 					comixArray.push(comix.Img)
-
 					change_to_active(this);
 				}
 				else{
-					var index_to_remove = Feed.indexOf(comix);
-					Feed.splice(index_to_remove, 1);
-					chrome.storage.sync.set({"feed":Feed});
+					chrome.storage.sync.remove(Url);
 					index_to_remove = comixArray.indexOf(comix.Img);
 					comixArray.splice(index_to_remove, 1);
 					change_to_inactive(this);
@@ -397,19 +397,17 @@ function main_comix_home(){
 }
 
 function main_issue(){
-	var Feed = [];
 	var piecesArray = [];
 	var issuesArray = [];
-	chrome.storage.sync.get("feed", function assign(data){
+	chrome.storage.sync.get(function assign(data){
 		console.log(data);
 	  if (!chrome.runtime.error){
-	    var Feed = data.feed
-			for (item in Feed){
-				if (Feed[item].Type == "piece"){
-					piecesArray.push(Feed[item].Title)
+			for (item in data){
+				if (data[item].Type == "piece"){
+					piecesArray.push(data[item].Title)
 				}
-				else if (Feed[item].Type == "issue"){
-					issuesArray.push(Feed[item].Title)
+				else if (data[item].Type == "issue"){
+					issuesArray.push(data[item].Title)
 				}
 			}
 			// console.log(Feed)
@@ -425,7 +423,6 @@ function main_issue(){
 			});
 
 			$(".hat").click(function(){
-				console.log("feed", Feed)
 				var issue = {}
 				issue.Url = currentUrl;
 				issue.Title = $("body").find("h2").html()
@@ -441,10 +438,7 @@ function main_issue(){
 				});
 
 				issue.List = List
-				Feed.push(issue);
-				// STORE THE ISSUE IN STORAGE
-				// THIS IS ALSO ADDING THE FIRST PIECE--DON'T DO THAT
-				// OVERRIDE THE FUNCTIONALITY IN MAIN THUM
+				// OVERRIDE THE FUNCTIONALITY IN MAIN THUMBNAILS?
 
 				if ($(this).hasClass("inactive")){
 					$.ajax("http://harvardlampoon.com/issues/", {
@@ -490,21 +484,20 @@ function main_issue(){
 								// 		console.log("hello", data);
 								// 	});
 								// });
-
-								Feed.push(piece);
+								var to_save = {}
+								to_save[Url] = piece
+								chrome.storage.sync.set(to_save)
 								change_to_active(this);
 								piecesArray.push(piece.Title);
 							}
 						});// end iterate over stars
-						chrome.storage.sync.set({"feed":Feed});
+						var to_save = {};
+						to_save[currentUrl] = issue
+						chrome.storage.sync.set(to_save);
 						change_to_active(this);
-						console.log("feed", Feed)
 				}
 				else {
-						var index_to_remove = Feed.indexOf(issue);
-						Feed.splice(index_to_remove, 1);
-						chrome.storage.sync.set({"feed":Feed});
-						console.log("removed from storage");
+						chrome.storage.sync.remove(currentUrl);
 						index_to_remove = issuesArray.indexOf(issue.Title);
 						issuesArray.splice(index_to_remove, 1)
 						change_to_inactive(this);
@@ -520,15 +513,12 @@ function main_issue(){
 		// add everything to storage
 function main_comix(){
 	// make it append to the top of the comix, not the bottom!
-	var comixObject = {};
 	var comixArray = [];
-	var Feed = [];
-	chrome.storage.sync.get("feed", function assign(data){
+	chrome.storage.sync.get(function assign(data){
 	  if (!chrome.runtime.error){
-	    Feed = data.feed
-			for (item in Feed){
-				if (Feed[item].Type == "comix"){
-					comixArray.push(Feed[item].Img)
+			for (item in data){
+				if (data[item].Type == "comix"){
+					comixArray.push(data[item].Img)
 				}
 			}
 			$('#comic-full').each(function(){
@@ -536,12 +526,12 @@ function main_comix(){
 				if (($.inArray(Img, comixArray)) != -1){
 					console.log(Img, "is in array", comixArray);
 					if ($(this).has("#jesture-container").length == 0){
-						$(this).append(jesture_star_active);
+						$(this).prepend(jesture_star_active);
 					}
 				}
 				else{
 					if($(this).has("#jesture-container").length ==0){
-						$(this).append(jesture_star_inactive);
+						$(this).prepend(jesture_star_inactive);
 					}
 				}
 			});
@@ -555,8 +545,8 @@ function main_comix(){
 
 				// take the image, ignoring the jesture images
 
-				var Img = $(this).parent().parent().prev().attr("src");
-				var Title = false
+				var Img = $(this).parent().parent().next().attr("src");
+				// var Title = false
 				comix.Img = Img;
 				comix.Url = currentUrl
 
@@ -569,20 +559,18 @@ function main_comix(){
 						Title = $(correct).find(".comic-title").html()
 					}
 				});
-				comix.Title = Title
-				console.log(comix);
+				comix.Title = Title;
 
 				if ($(this).hasClass("inactive")){
 
-					Feed.push(comix);
+					var to_save = {}
+					to_save[currentUrl]=comix
 					comixArray.push(comix.Img);
-					chrome.storage.sync.set({"feed":Feed})
+					chrome.storage.sync.set(to_save)
 					change_to_active(this);
 				}
 				else{
-					var index_to_remove = Feed.indexOf(comix);
-					Feed.splice(index_to_remove, 1);
-					chrome.storage.sync.set({"feed":Feed});
+					chrome.storage.sync.remove(currentUrl);
 					index_to_remove = comixArray.indexOf(comix.Img);
 					change_to_inactive(this);
 				}
@@ -595,14 +583,12 @@ function main_comix(){
 
 function main_issues(){
 	// .click(function(e){e.preventDefault();})
-	var Feed = [];
 	var issuesArray = [];
-	chrome.storage.sync.get("feed", function assign(data){
+	chrome.storage.sync.get(function assign(data){
 	  if (!chrome.runtime.error){
-	    Feed = data.feed
-			for (item in Feed){
-				if (Feed[item].Type == "issue"){
-					issuesArray.push(Feed[item].Title)
+			for (item in data){
+				if (data[item].Type == "issue"){
+					issuesArray.push(data[item].Title)
 				}
 			}
 			$('.issue').each(function(){
@@ -617,7 +603,6 @@ function main_issues(){
 				else{
 					if($(this).has("#jesture-container").length ==0){
 						$(this).find(".issue-description").after(jesture_star_inactive);
-						$(this).find(".arrow-link").slideUp();
 					}
 				}
 			});
@@ -646,7 +631,6 @@ function main_issues(){
 						// store all of the issue's pieces in storage, and get the list
 						$(data).find(".piece").each(function(){
 							curr_a = $(this).children().first().attr("href")
-							console.log(curr_a);
 							send_to_background("http://harvardlampoon.com" + curr_a);
 							List.push(curr_a);
 						});
@@ -662,12 +646,12 @@ function main_issues(){
 				issue.Description = Description
 
 				if ($(this).hasClass("inactive")){
-					Feed.push(issue);
 					issuesArray.push(issue.Title);
 					$.ajax(issue.Url, {
 						async:false,
 						success: function assing(data){
 							$(data).find(".piece").each(function(){
+								console.log("adding sub piece")
 								var piece = {};
 								piece.Type = "piece";
 								var thumbnail = $(this)
@@ -685,25 +669,24 @@ function main_issues(){
 								send_to_background(Url);
 								Author = $(thumbnail).find(".author-link").html();
 								pieceTitle = $(thumbnail).find("h3").html();
-
 								piece.Title = pieceTitle;
 								piece.Author = Author;
 								piece.Img = Img;
 								piece.Url = Url
 
-								if ($.inArray(piece, Feed) == -1){
-									Feed.push(piece);
-								}
+								var to_save = {}
+								to_save[Url] = piece
+								chrome.storage.sync.set(to_save)
 							});// end iterate over pieces on the other page.
 						}
 					});// end ajax call
-					chrome.storage.sync.set({"feed":Feed});
+					var to_save = {}
+					to_save[issue.Url] = issue
+					chrome.storage.sync.set(to_save);
 					change_to_active(this);
 				}
 				else{
-					var index_to_remove = Feed.indexOf(issue);
-					Feed.splice(index_to_remove, 1);
-					chrome.storage.sync.set({"feed":Feed});
+					chrome.storage.sync.remove(issue.Url);
 					index_to_remove = issuesArray.indexOf(issue.Title);
 					change_to_inactive(this);
 				}
@@ -715,25 +698,23 @@ function main_issues(){
 }// end main
 
 function main_authors(){
-	var Feed = [];
 	var authorsArray = [];
 	var piecesArray = [];
-	chrome.storage.sync.get("feed", function assign(data){
+	chrome.storage.sync.get(function assign(data){
 	  if (!chrome.runtime.error){
-	    Feed = data.feed
-			for (item in Feed){
-				if (Feed[item].Type == "author"){
-					authorsArray.push(Feed[item].Author)
+			for (item in data){
+				if (data[item].Type == "author"){
+					authorsArray.push(data[item].Author)
 				}
-				else if (Feed[item].Type =="piece"){
-						piecesArray.push(Feed[item].Title);
+				else if (data[item].Type =="piece"){
+						piecesArray.push(data[item].Title);
 				}
 			}
 			$(".author-header").each(function(){
 				// author name stored in "Author". Their pieces will be stored in "List"
 				var Author = $(this).find("h2").html()
 				if (($.inArray(Author, authorsArray))!= -1){
-					console.log(Author, "is in array", authorsArray);
+					// console.log(Author, "is in array", authorsArray);
 					if ($(this).has("#jesture-container").length ==0){
 						$(this).append(jesture_hat_active)
 					}
@@ -803,16 +784,14 @@ function main_authors(){
 				send_to_background(Url);
 
 				if ($(this).hasClass("inactive")){
-					Feed.push(piece);
-					chrome.storage.sync.set({"feed":Feed})
+					var to_save = {}
+					to_save[Url] =piece
+					chrome.storage.sync.set(to_save)
 					piecesArray.push(piece.Title);
 					change_to_active(this);
 				}
 				else{
-					var index_to_remove = Feed.indexOf(piece);
-					Feed.splice(index_to_remove, 1);
-					chrome.storage.sync.set({"feed":Feed});
-					console.log("removed from storage");
+					chrome.storage.sync.set(Url);
 					index_to_remove = piecesArray.indexOf(piece.Title);
 					piecesArray.splice(index_to_remove, 1)
 					change_to_inactive(this);
@@ -828,14 +807,11 @@ function main_authors(){
 				author.Type = "author"
 
 				var Author = $(this).parent().find("h2").html();
-				console.log(Author);
 				author.Author = Author;
-
 				var List = [];
 
 				$("body").find(".piece").each(function(){
 					curr_a = $(this).children().first().attr("href")
-					console.log(curr_a);
 					send_to_background("http://harvardlampoon.com" + curr_a);
 					List.push(curr_a);
 				});
@@ -846,12 +822,10 @@ function main_authors(){
 				// 	// console.log(all_pieces[curr_piece].children().first());
 				//
 				// }
-				console.log(List);
 				author.List = List
+				author.Url = currentUrl
 
 				if ($(this).hasClass("inactive")){
-					console.log("derp")
-					Feed.push(author);
 					$(".star").each(function(){
 						if ($(this).hasClass("inactive")){
 							var piece = {};
@@ -877,21 +851,22 @@ function main_authors(){
 							piece.Img = Img;
 							piece.Url = Url
 
-							Feed.push(piece);
+							var to_save = {}
+							to_save[Url] = piece
+							chrome.storage.sync.set(to_save)
 							change_to_active(this);
 							piecesArray.push(piece.Title);
 						}
 					});
-
+					var to_save = {}
+					to_save[currentUrl] = author
 					authorsArray.push(author.Author);
-					chrome.storage.sync.set({"feed":Feed});
+					chrome.storage.sync.set(to_save);
 					change_to_active(this);
 				}
 				else{
 					// delete_from_background(Img);
-					var index_to_remove = Feed.indexOf(author);
-					Feed.splice(index_to_remove, 1);
-					chrome.storage.sync.set({"feed":Feed});
+					chrome.storage.sync.remove(currentUrl);
 					index_to_remove = authorsArray.indexOf(author.Author);
 					authorsArray.splice(index_to_remove, 1)
 					change_to_inactive(this);

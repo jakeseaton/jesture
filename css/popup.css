@@ -43,3 +43,6 @@ nav li.active a {
 .invisible {
   display: none;
 }
+.panel-body img {
+  width: 100%;
+}

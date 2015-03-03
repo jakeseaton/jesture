@@ -16,21 +16,46 @@ center_content()
 	// position relative
 
 transition()
-	-webkit-transition: opacity arguments;
-	-moz-transition: opacity arguments;
-	-ms-transition: opacity arguments;
-	-o-transition: opacity arguments;
-	transition: opacity arguments;
-
+	-webkit-transition: all arguments ease;
+	-moz-transition: all arguments ease;
+	-ms-transition: all arguments ease;
+	-o-transition: all arguments ease;
+	transition: all arguments ease;
+.panel-body
+	p
+		margin-left 10%
+		margin-right 10%
 #jesture-container
 	text-align center
 #jesture
 	display inline-block
 	// margin-left 45% !important
 	// margin-right 45% !important
+#partition
+	width 75%
+	background-color white
+	margin-right auto
+	margin-left auto
+	border 1px solid black
+	h2
+		width 50%
+		margin-right auto
+		margin-left auto
+		p
+			padding 5
+	.piece-text-container
+		// margin-right auto
+		// margin-left auto
+	img
+		display inherit
+		margin-left auto
+		margin-right auto
+		max-width 50%
+	.grid
+		padding-top 30px
 
 .invisible
-	opacity 0
+	display none
 // there is def a better way to do this.
 .star
 	sq_img(imgSize)
@@ -72,7 +97,8 @@ transition()
 	//display inline-block
 	text-align center
 
-
+h4.panel-title
+		padding 5px
 	// .piece-text-container
 	// 	position absolute
 	// 	width 100%
@@ -1316,10 +1342,3 @@ body {
 
 a {
 	text-decoration: none; }
-#parition
-	width 50%
-	background-color red !important
-	height 100%
-	margin-right auto
-	margin-left auto
-	position absolute

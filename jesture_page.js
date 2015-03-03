@@ -1,4 +1,4 @@
-var minusIcon = '<img src = "entypo/circle-with-cross.svg" class = "minus icon inactive"/>';
+var minusIcon = '<img src = "img/star_inactive.png" class = "minus icon active"/>';
 // var playIcon = '<img src = "entypo/controller-play.svg" class = "play icon inactive"/>';
 // var cycleIcon = '<img class = "cycle icon inactive" src= "entypo/cycle.svg"/>';
 var downloadIcon = '<img src = "entypo/download.svg" class = "download icon inactive"/>';
@@ -6,9 +6,11 @@ var facebookIcon, twitterIcon;
 var downIcon = '<img class = "down icon inactive" src= "entypo/entypo+/entypo+/chevron-with-circle-down.svg"/>';
 var upIcon = '<img class = "up icon inactive" src= "entypo/entypo+/entypo+/chevron-with-circle-up.svg"/>';
 var browserIcon = '<img class = "browser icon inactive" src = "entypo/browser.svg"/>'
+var gridIcon = "<img class = 'grid icon inactive' src = 'entypo/grid.svg'>"
 
 // var menuBar = '<div class = "menu">'+upIcon + downIcon+downloadIcon +minusIcon+'</div>';
-var menuBar = '<div class = "menu">'+browserIcon+minusIcon+'</div>';
+var menuBar = '<div class = "menu">'+minusIcon+browserIcon+'</div>';
+var menuWithoutBrowser = "<div class = menu>"+minusIcon+"</div>"
 // listener for changes in chrome.storage
 chrome.storage.onChanged.addListener(function(changes, namespace){
   console.log("storage was changed");
@@ -20,7 +22,8 @@ chrome.storage.onChanged.addListener(function(changes, namespace){
   // main();
 });
 
-//
+
+
 // // listener for changes in local storage
 // window.addEventListener("storage", handle_local_storage_change);
 //
@@ -32,18 +35,17 @@ chrome.storage.onChanged.addListener(function(changes, namespace){
 
 
 $(document).ready(function(){
+  //
   // reset? ()
-  chrome.storage.sync.get("feed", function assign(data){
+  chrome.storage.sync.get(function assign(data){
     if (!chrome.runtime.error){
-      var Feed = data.feed
       // append pieces
-      for (item in Feed){
-        var curr = Feed[item]
+      for (item in data){
+        var curr = data[item]
         var curr_html;
         var Url=curr.Url
         switch (curr.Type) {
         case "piece":
-          console.log("derp")
           if (curr.Img){
             curr_html ='<li class="piece piece-art"><a class="piece-link" href='+ Url +' style="display: block;"></a><div class="info-bar"><a class="piece-link" href='+Url+' style="display: block;"></a><div class="author"><a class="piece-link" href='+Url+' style="display: block;"></a><a class="author-link" href="http://harvardlampoon.com/masthead">'+curr.Author+'</a></div><a href='+Url+ '><h3 class="piece-title">'+ curr.Title +'</h3></a>'+menuBar+'</div><div class="background"><img src="http://harvardlampoon.com'+curr.Img+'"></div></li>';
           }
@@ -53,20 +55,17 @@ $(document).ready(function(){
           // $("#favorite-pieces").prepend(curr_html);
           break;
         case "author":
-          console.log("author", curr);
-          curr_html ='<li class="piece piece-art"><a class="piece-link" href='+ Url +' style="display: block;"></a><div class="info-bar"><a class="piece-link" href='+Url+' style="display: block;"></a><div class="author"><a class="piece-link" href='+Url+' style="display: block;"></a></div><a href='+ Url+ '><h3 class="piece-title">'+ curr.Author +'</h3></a>'+menuBar+'</div><div class="background"><img src="img/hat_active.png"></div></li>';
+          curr_html ='<li class="piece piece-art"><a class="piece-link" href='+ Url +' style="display: block;"></a><div class="info-bar"><a class="piece-link" href='+Url+' style="display: block;"></a><div class="author"><a class="piece-link" href='+Url+' style="display: block;"></a></div><a href='+ Url+ '><h3 class="piece-title">'+ curr.Author +'</h3></a>'+menuWithoutBrowser+'</div><div class="background"><img src="img/knight.png"></div></li>';
           break;
         case "comix":
-          console.log("comix", curr);
-          curr_html ='<li class="piece piece-art"><a class="piece-link" href='+ Url +' style="display: block;"></a><div class="info-bar"><a class="piece-link" href='+Url+' style="display: block;"></a><div class="author"><a class="piece-link" href='+Url+' style="display: block;"></a></div><a href='+Url+ '><h3 class="piece-title">'+ curr.Title +'</h3></a>'+menuBar+'</div><div class="background"><img src="http://harvardlampoon.com'+curr.Img+'"></div></li>';
+          curr_html ='<li class="piece piece-art"><a class="piece-link" href='+ Url +' style="display: block;"></a><div class="info-bar"><a class="piece-link" href='+Url+' style="display: block;"></a><div class="author"><a class="piece-link" href='+Url+' style="display: block;"></a></div><a href='+Url+ '><h3 class="piece-title">'+ curr.Title +'</h3></a>'+menuWithoutBrowser+'</div><div class="background"><img src="http://harvardlampoon.com'+curr.Img+'"></div></li>';
           break;
         case "issue":
           // if (Url != "http://harvardlampoon.com/"){
           //   Url = "http://harvardlampoon.com" + Url;
           //   // console.log(Url);
           // }
-          console.log("issue", curr);
-          curr_html ='<li class="piece piece-art"><a class="piece-link" href='+ Url +' style="display: block;"></a><div class="info-bar"><a class="piece-link" href='+Url+' style="display: block;"></a><div class="author"><a class="piece-link" href='+Url+' style="display: block;"></a></div><a href='+Url+ '><h3 class="piece-title">'+ curr.Title +'</h3></a>'+menuBar+'</div><div class="background"><img src="http://harvardlampoon.com'+curr.Img+'"></div></li>';
+          curr_html ='<li class="piece piece-art"><a class="piece-link" href='+ Url +' style="display: block;"></a><div class="info-bar"><a class="piece-link" href='+Url+' style="display: block;"></a><div class="author"><a class="piece-link" href='+Url+' style="display: block;"></a></div><a href='+Url+ '><h3 class="piece-title">'+ curr.Title +'</h3></a>'+menuWithoutBrowser+'</div><div class="background"><img src="http://harvardlampoon.com'+curr.Img+'"></div></li>';
           break;
         }
         $("#favorite-pieces").prepend(curr_html);
@@ -166,19 +165,57 @@ function attach_jquery(){
     $(".piece-art").slideToggle();
 
   });
+  $("a").click(function display(e){
+    e.preventDefault();
+    if (!navigator.onLine){
+      var item = $(e.target).parent().siblings().find("a").attr("href");
+      var title = $(e.target).parent().prev().html()
+      var img = $(e.target).parent().parent().next().find("img").attr("src")
+      console.log(item)
+      var txt = localStorage.getItem(item)
+      var full = '<h2><div class="piece-content"><div class = "menu">'+gridIcon+'</div><div class="piece-text-container">'+txt+'</div><div class="piece-artwork"><img src="'+img+'"></img></div></div></h2>'
+      console.log(img)
+      // console.log(txt);
+
+      $("#favorite-pieces").fadeOut();
+      $("#partition").append(full);
+      $(".issue-title").html(title);
+
+      $(".grid").click(function swap(){
+        console.log(this);
+        // $("#partition").addClass("invisible")
+        $("#partition").empty()
+        $(".issue-title").html("Favorites");
+        $("#favorite-pieces").fadeIn();
+      });
+
+    }
+  });
 
   $(".browser").click(function display(e){
-    e.preventDefault;
+    e.preventDefault();
+    // check to see if it's an author or an issue etc.
     var item = $(e.target).parent().siblings().find("a").attr("href");
+    var title = $(e.target).parent().prev().html()
     var img = $(e.target).parent().parent().next().find("img").attr("src")
     console.log(item)
     var txt = localStorage.getItem(item)
-    var full = '<h2><div class="piece-content"><div class="piece-artwork"><img src="'+img+'"></img></div><div class="piece-text-container">'+txt+'</div></div></h2>'
+    var full = '<h2><div class="piece-content"><div class = "menu">'+gridIcon+'</div><div class="piece-text-container">'+txt+'</div><div class="piece-artwork"><img src="'+img+'"></img></div></div></h2>'
     console.log(img)
     // console.log(txt);
 
-    $("#favorite-pieces").hide();
-    $("#partition").append(full)
+    $("#favorite-pieces").fadeOut();
+    // $("#partition").removeClass("invisible");
+    $("#partition").append(full);
+    $(".issue-title").html(title);
+
+    $(".grid").click(function swap(){
+      console.log(this);
+      $("#partition").empty()
+      $(".issue-title").html("Favorites");
+      $("#favorite-pieces").fadeIn();
+    });
+
 
   });
 
@@ -187,9 +224,10 @@ function attach_jquery(){
     // remove it from storage
     // remove it from the DOM
     var current = this;
-    console.log("clicked MINUS icon");
-    $(current).parent().parent().parent().remove();
-    //
+    var to_remove = $(current).parent().siblings().find("a").attr("href");
+    chrome.storage.sync.remove(to_remove);
+
+    $(current).parent().parent().parent().fadeOut()
     // $(".piece-art").slideToggle(function remove(){
     //   $(current).parent().parent().parent().remove();
     // });

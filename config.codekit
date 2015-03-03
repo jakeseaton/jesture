@@ -2,17 +2,6 @@
 "CodeKitInfo": "This is a CodeKit 2.x project configuration file. It is designed to sync project settings across multiple machines. MODIFYING THE CONTENTS OF THIS FILE IS A POOR LIFE DECISION. If you do so, you will likely cause CodeKit to crash. This file is not useful unless accompanied by the project that created it in CodeKit 2. This file is not backwards-compatible with CodeKit 1.x. For more information, see: http:\/\/incident57.com\/codekit",
 "creatorBuild": "18493",
 "files": {
-	"\/arrow.png": {
-		"fileType": 32768,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 2679,
-		"inputAbbreviatedPath": "\/arrow.png",
-		"outputAbbreviatedPath": "\/arrow.png",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
 	"\/background.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -3948,12 +3937,12 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/good stuff.js": {
+	"\/derp.js": {
 		"fileType": 64,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/good stuff.js",
-		"outputAbbreviatedPath": "\/min\/good stuff-min.js",
+		"inputAbbreviatedPath": "\/derp.js",
+		"outputAbbreviatedPath": "\/min\/derp-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -4237,17 +4226,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/jesture_page_backup.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/jesture_page_backup.js",
-		"outputAbbreviatedPath": "\/min\/jesture_page_backup-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/js\/jquery.min.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -4358,26 +4336,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/old\/popup.html": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/old\/popup.html",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/old\/popup.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/old\/popup.js",
-		"outputAbbreviatedPath": "\/old\/min\/popup-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/options\/options.html": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -4452,17 +4410,6 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/plus.png": {
-		"fileType": 32768,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 1139,
-		"inputAbbreviatedPath": "\/plus.png",
-		"outputAbbreviatedPath": "\/plus.png",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
 	"\/popup.html": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -4499,57 +4446,122 @@
 		"shouldRunAutoprefixer": 0,
 		"shouldRunBless": 0
 		},
-	"\/right_arrow.png": {
+	"\/README.md": {
+		"enableFootnoteSupport": 0,
+		"enableSmartyPants": 1,
+		"expandTabs": 1,
+		"fileType": 4096,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/README.md",
+		"outputAbbreviatedPath": "\/README.html",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/unused\/arrow.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 18149,
-		"inputAbbreviatedPath": "\/right_arrow.png",
-		"outputAbbreviatedPath": "\/right_arrow.png",
+		"initialSize": 2679,
+		"inputAbbreviatedPath": "\/unused\/arrow.png",
+		"outputAbbreviatedPath": "\/unused\/arrow.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/snippets.js": {
+	"\/unused\/jesture_page_backup.js": {
 		"fileType": 64,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/snippets.js",
-		"outputAbbreviatedPath": "\/min\/snippets-min.js",
+		"inputAbbreviatedPath": "\/unused\/jesture_page_backup.js",
+		"outputAbbreviatedPath": "\/unused\/min\/jesture_page_backup-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/staff1.png": {
+	"\/unused\/old\/popup.html": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/unused\/old\/popup.html",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/unused\/old\/popup.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/unused\/old\/popup.js",
+		"outputAbbreviatedPath": "\/unused\/old\/min\/popup-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/unused\/plus.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 2253,
+		"inputAbbreviatedPath": "\/unused\/plus.png",
+		"outputAbbreviatedPath": "\/unused\/plus.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/unused\/right_arrow.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 18149,
+		"inputAbbreviatedPath": "\/unused\/right_arrow.png",
+		"outputAbbreviatedPath": "\/unused\/right_arrow.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/unused\/snippets.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/unused\/snippets.js",
+		"outputAbbreviatedPath": "\/unused\/min\/snippets-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/unused\/staff1.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"initialSize": 6820,
-		"inputAbbreviatedPath": "\/staff1.png",
-		"outputAbbreviatedPath": "\/staff1.png",
+		"inputAbbreviatedPath": "\/unused\/staff1.png",
+		"outputAbbreviatedPath": "\/unused\/staff1.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/staff2.png": {
+	"\/unused\/staff2.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"initialSize": 7619,
-		"inputAbbreviatedPath": "\/staff2.png",
-		"outputAbbreviatedPath": "\/staff2.png",
+		"inputAbbreviatedPath": "\/unused\/staff2.png",
+		"outputAbbreviatedPath": "\/unused\/staff2.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/star.png": {
+	"\/unused\/star.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 3979,
-		"inputAbbreviatedPath": "\/star.png",
-		"outputAbbreviatedPath": "\/star.png",
+		"initialSize": 3411,
+		"inputAbbreviatedPath": "\/unused\/star.png",
+		"outputAbbreviatedPath": "\/unused\/star.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
