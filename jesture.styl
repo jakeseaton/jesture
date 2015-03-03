@@ -1,3 +1,7 @@
+// Stylus for Jesture
+// Developed by Jake Seaton
+// Quincy Dewolfe 20-05
+
 // global Variables
 Yellow = #f9dc8b
 Purple = #6a4faf
@@ -21,16 +25,12 @@ transition()
 	-ms-transition: all arguments ease;
 	-o-transition: all arguments ease;
 	transition: all arguments ease;
-.panel-body
-	p
-		margin-left 10%
-		margin-right 10%
+
+
 #jesture-container
 	text-align center
 #jesture
 	display inline-block
-	// margin-left 45% !important
-	// margin-right 45% !important
 #partition
 	width 75%
 	background-color white
@@ -53,29 +53,23 @@ transition()
 		max-width 50%
 	.grid
 		padding-top 30px
+.panel-body
+	p
+		margin-left 10%
+		margin-right 10%
 
 .invisible
 	display none
-// there is def a better way to do this.
 .star
 	sq_img(imgSize)
-	//center_content
 	transition(0.25s)
-	// opacity .5
 	cursor pointer
-	// box-shadow 5px 5px 5px #000000
 .hat
 	height 36px
 	width 36px
 
 #plus
 	@extend .star
-
-.arrow
-	@extend .star
-	opacity 1
-.arrow:hover
-	// opacity 1
 .active
 	opacity 1 !important
 
@@ -83,8 +77,6 @@ transition()
 	opacity .5
 
 .inactive:hover
-	//box-shadow 5px 5px 5px #888888
-	//box_shadow(5px)
 	opacity 1
 .icon
 	@extend .star
@@ -99,73 +91,8 @@ transition()
 
 h4.panel-title
 		padding 5px
-	// .piece-text-container
-	// 	position absolute
-	// 	width 100%
-	// 	background-color red
-// code from courses
-/*
-.icon-courses-star {
-  background: url("/img/sidebar/starc.png");
-  background-size: cover;
-  background-repeat: no-repeat; }
 
-.icon-courses-star-empty {
-  opacity: .4;
-  background: url("/img/sidebar/star.png");
-  background-size: cover;
-  background-repeat: no-repeat; }
-  .icon-courses-star-empty:hover {
-    opacity: 1; }
-
- .icon-compare-empty, .icon-compare-filled, .icon-courses-star, .icon-courses-star-empty {
-  -webkit-transition: opacity 0.25s;
-  -moz-transition: opacity 0.25s;
-  -ms-transition: opacity 0.25s;
-  -o-transition: opacity 0.25s;
-  transition: opacity 0.25s;
-  height: 15px;
-  width: 15px;
-  margin-left: -1px;
-  margin-top: -1px;
-  background-repeat: no-repeat !important; }
-
-*/
-
-// create the new stuff
-// body #submenu .larger-container .jesture
-// 	left -200%
-//
-// body #submenu #jesture-menu-container
-// 	left 200%
-// body #submenu #jesture-menu-container .submenu-inner a
-// 		display block
-// 		text-decoration none
-//
-// body #submenu #jesture-menu-container .submenu-inner .comix-menu-container
-// 			display inline-block
-// 			height 260px
-// 			margin 10px
-//
-// body #submenu #jesture-menu-container .submenu-inner a
-// 	display block
-// 	text-decoration none
-//
-// body #submenu #jesture-menu-container .submenu-inner .comix-menu-container
-// 	display inline-block
-// 	height 260px
-// 	margin 10px
-//
-// body #submenu #jesture-menu-container .submenu-inner .comix-menu-container:hover > a > img
-// 	border 2px solid black
-// body #submenu #jesture-menu-container .submenu-inner .comix-menu-container:hover > a > .comic-menu-title
-// 	color black
-// body #submenu #jesture-menu-container .submenu-inner .comix-menu-container img
-// 	max-width 300px
-// 	max-height 230px
-// 	border 2px solid white
-// body #submenu #jesture-menu-container .submenu-inner .comix-menu-container .comic-menu-title
-// 	color #939393
+/* plundering */
 @import url('http://fonts.googleapis.com/css?family=Raleway:400,300,200,100,500');
 @import url('http://fonts.googleapis.com/css?family=EB+Garamond');
 @font-face {

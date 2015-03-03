@@ -1,7 +1,3 @@
-.panel-body p {
-  margin-left: 10%;
-  margin-right: 10%;
-}
 #jesture-container {
   text-align: center;
 }
@@ -32,12 +28,15 @@
 #partition .grid {
   padding-top: 30px;
 }
+.panel-body p {
+  margin-left: 10%;
+  margin-right: 10%;
+}
 .invisible {
   display: none;
 }
 .star,
 #plus,
-.arrow,
 .icon {
   height: 36px !important;
   width: 36px !important;
@@ -51,9 +50,6 @@
 .hat {
   height: 36px;
   width: 36px;
-}
-.arrow {
-  opacity: 1;
 }
 .active {
   opacity: 1 !important;
@@ -77,33 +73,7 @@
 h4.panel-title {
   padding: 5px;
 }
-/*
-.icon-courses-star {
-  background: url("/img/sidebar/starc.png");
-  background-size: cover;
-  background-repeat: no-repeat; }
-
-.icon-courses-star-empty {
-  opacity: .4;
-  background: url("/img/sidebar/star.png");
-  background-size: cover;
-  background-repeat: no-repeat; }
-  .icon-courses-star-empty:hover {
-    opacity: 1; }
-
- .icon-compare-empty, .icon-compare-filled, .icon-courses-star, .icon-courses-star-empty {
-  -webkit-transition: opacity 0.25s;
-  -moz-transition: opacity 0.25s;
-  -ms-transition: opacity 0.25s;
-  -o-transition: opacity 0.25s;
-  transition: opacity 0.25s;
-  height: 15px;
-  width: 15px;
-  margin-left: -1px;
-  margin-top: -1px;
-  background-repeat: no-repeat !important; }
-
-*/
+/* plundering */
 @import url("http://fonts.googleapis.com/css?family=Raleway:400,300,200,100,500");
 @import url("http://fonts.googleapis.com/css?family=EB+Garamond");
 @font-face {

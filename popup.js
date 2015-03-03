@@ -1,44 +1,23 @@
-/*
-MAKE EACH TAB ORAGNIZE BY THAT THING
-*/
+// Javascript for Popup
 
-// chrome.storage.sync.get('comix',function(data){
-//   console.log("comix",data);
-//   $("body").append('comix',data);
-// });
-// chrome.storage.sync.get('piece',function(data){
-//   $("body").append('piece',data);
-//   console.log("piece",data);
-// });
 var minusIcon = '<img src = "img/circle-with-minus.svg" class = "minus icon inactive"/>';
-// var playIcon = '<img src = "entypo/controller-play.svg" class = "play icon inactive"/>';
-// var cycleIcon = '<img class = "cycle icon inactive" src= "entypo/cycle.svg"/>';
-var downloadIcon = '<img src = "entypo/download.svg" class = "download icon inactive"/>';
-var facebookIcon, twitterIcon;
-var downIcon = '<img class = "down icon inactive" src= "entypo/entypo+/entypo+/chevron-with-circle-down.svg"/>';
-var upIcon = '<img class = "up icon inactive" src= "entypo/entypo+/entypo+/chevron-with-circle-up.svg"/>';
+// // var playIcon = '<img src = "entypo/controller-play.svg" class = "play icon inactive"/>';
+// // var cycleIcon = '<img class = "cycle icon inactive" src= "entypo/cycle.svg"/>';
+// var downloadIcon = '<img src = "entypo/download.svg" class = "download icon inactive"/>';
+// var downIcon = '<img class = "down icon inactive" src= "entypo/entypo+/entypo+/chevron-with-circle-down.svg"/>';
+// var upIcon = '<img class = "up icon inactive" src= "entypo/entypo+/entypo+/chevron-with-circle-up.svg"/>';
 
-var menuBar = '<div class = "menu">'+upIcon + downIcon+downloadIcon +minusIcon+'</div>';
+// var menuBar = '<div class = "menu">'+upIcon + downIcon+downloadIcon +minusIcon+'</div>';
 
-// listener for changes in chrome.storage
-chrome.storage.onChanged.addListener(function(changes, namespace){
-  console.log("storage was changed");
-  for (var key in changes){
-    var storageChange = changes[key];
-    // UPDATE CONTENT-- rerun the main function
-    // display a loader while we wait?
-    }
-  // main();
-});
+// // listener for changes in chrome.storage
+// chrome.storage.onChanged.addListener(function(changes, namespace){
+//   console.log("storage was changed");
+//   for (var key in changes){
+//     var storageChange = changes[key];
+//
+//     }
+// });
 var hash = 1
-
-
-// $(document).ajaxStart(function(){
-//   $("#loading").removeClass("invisible");
-// });
-// $(document).ajaxStop(function(){
-//   $("#loading").addClass("invisible");
-// });
 
 $(document).ready(function(){
   // reset? ()
@@ -53,12 +32,12 @@ $(document).ready(function(){
             break;
           case "issue":
             // console.log("got to here
-            console.log(curr, "it's an issue");
+            // console.log(curr, "it's an issue");
             createComixItem(curr.Img, curr.Title)
             createIssueItem(curr.Img, curr.Description, curr.Title, curr.List);
             break;
           case "comix":
-            console.log(curr, "it's an comix");
+            // console.log(curr, "it's an comix");
             createComixItem(curr.Img, curr.Title);
             break;
           case "piece":
@@ -90,7 +69,7 @@ $(document).ready(function(){
       var destination = $(this).attr("href");
       var open = false
       chrome.tabs.getAllInWindow(null, function(tabs){
-        console.log(destination)
+        // console.log(destination)
         for (i in tabs){
           if (tabs[i].url.split("/")[3] == destination){
             open = true;
@@ -106,23 +85,6 @@ $(document).ready(function(){
 });// end main
 
 function ajax_pieces(Url, Title, Author){
-  // jQuery.retrieveJSON(Url, function call(json,status){
-  //   console.log("called it")
-  //   console.log(json);
-  //   console.log(data);
-  //      var txt = $(data).find(".piece-text-container").find("h2").html();
-  //      var $template = $(".template1");
-  //      var $newPanel = $template.clone();
-  //      $newPanel.removeClass("template1");
-  //      // construct
-  //      $newPanel.removeClass("invisible");
-  //      $newPanel.find(".collapse").removeClass("in");
-  //      $newPanel.find(".accordion-toggle").attr("href",  "#" + (++hash))
-  //               .text(Title+" "+Author);
-  //      $newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
-  //      $newPanel.find(".panel-body").html(txt);
-  //      $("#accordion1").prepend($newPanel.fadeIn());
-  // });
 
   $.ajax(Url, {
     success: function(data){
@@ -188,7 +150,7 @@ function createComixItem(Img, Title){
 function createIssueItem(Img, Description, Title, List){
   //$("#issues").append(issues_favorites[i].Title);
   for (piece in List){
-    console.log(List[piece])
+    // console.log(List[piece])
     var to_search = "http://harvardlampoon.com" + List[piece]
     chrome.storage.sync.get(to_search, function callback(data){
       for (item in data){
@@ -198,7 +160,7 @@ function createIssueItem(Img, Description, Title, List){
         var Url = object.Url
         var Author = object.Author
         var txt = localStorage.getItem(Url)
-        console.log(txt)
+        // console.log(txt)
         var $template = $(".template2");
         var $newPanel = $template.clone();
         $newPanel.removeClass("template2");

@@ -18,8 +18,8 @@ if (!localStorage.length)
 // Tell the content script what to do
 chrome.runtime.onMessage.addListener(
 	function send_url(request, sender, sendResponse) {
-		console.log(sender.tab ? "from a content script:" + sender.tab.url :
-								"from the extension");
+		// console.log(sender.tab ? "from a content script:" + sender.tab.url :
+		// 						"from the extension");
 		// wrap everything in this
 		if (request.question == "what is the current url?"){
 			sendResponse({url: sender.tab.url});
@@ -30,10 +30,10 @@ chrome.runtime.onMessage.addListener(
 				success:function(data){
 					// console.log(data);
 					var text_container = $(data).find(".piece-text-container").find("h2").html()
-					console.log(text_container)
+					// console.log(text_container)
 					try{
 								localStorage.setItem(request.u, text_container);
-								console.log(localStorage);
+								// console.log(localStorage);
 								// SEND A MESSAGE TO THE JESTUREPAGE TO WORK PROPERLY
 						}catch (e){
 							if (e == "QUOTE_EXCEEDED_ERR"){
@@ -49,25 +49,6 @@ chrome.runtime.onMessage.addListener(
 
  });
 
-
-/* Browswer Action clicked*/
-chrome.browserAction.onClicked.addListener(function(tab){
-	chrome.tabs.getAllInWindow(undefined, function(tabs){
-		var jesture_not_open = true
-		for (var i = 0, tab;tab = tabs[i]; i++){
-			// if it's open
-			if (tab.url.split("/")[3] == "jesture_page.html"){
-				// go there
-				chrome.tabs.update(tab.id, {selected: true});
-				jesture_not_open = false;
-			}
-		}
-		// else open new
-		if (jesture_not_open){chrome.tabs.create({url:"jesture_page.html"});}
-	});
-});
-
-
 function clear_all(){
 	chrome.storage.sync.clear();
 	localStorage.clear();
@@ -79,10 +60,10 @@ function store_piece(Url, Title){
 		success: function(data){
 			// console.log(data);
 			var text_container = $(data).find(".piece-text-container").find("h2").html()
-			console.log(text_container)
+			// console.log(text_container)
 			try{
 						localStorage.setItem(Title, text_container);
-						console.log(localStorage);
+						// console.log(localStorage);
 						// SEND A MESSAGE TO THE JESTUREPAGE TO WORK PROPERLY
 				}catch (e){
 					if (e == "QUOTE_EXCEEDED_ERR"){
