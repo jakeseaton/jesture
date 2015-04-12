@@ -9,7 +9,7 @@ Location
 ---
 Code: github.com/jakeseaton/jesture
 
-Product: N/A
+Product: https://www.dropbox.com/sh/jxxltyy0u6aji32/AACbTYCmUJ4KkvFLiRcOzHGFa?dl=0
 
 Description
 ---
@@ -33,6 +33,7 @@ The final icon directs the user to the main page of the extension, which is a fe
 
 Back End
 ---
+
 **Background:**
 The background script does two things. It tells the content script the current URL, and it receives Url's from the content script for pieces. It uses AJAX to retrieve the text content of these pieces, and store it in local storage by the URL.
 
