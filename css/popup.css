@@ -1,6 +1,12 @@
 .title-container {
   height: 10%;
 }
+.popup-title {
+  float: right;
+}
+a.accordion-toggle {
+  display: inherit;
+}
 body {
   height: 500px;
   width: 500px;
@@ -45,4 +51,9 @@ nav li.active a {
 }
 .panel-body img {
   width: 100%;
+}
+.panel-heading:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #6a4faf !important;
 }

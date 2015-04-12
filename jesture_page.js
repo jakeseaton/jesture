@@ -1,5 +1,6 @@
 var minusIcon = '<img src = "img/star_inactive.png" class = "minus icon active"/>';
-var browserIcon = '<img class = "browser icon inactive" src = "entypo/browser.svg"/>'
+// var browserIcon = '<img class = "browser icon inactive" src = "entypo/browser.svg"/>'
+var browserIcon = '<img class = "browser icon inactive" src = "img/openinbrowser.png"/>'
 var gridIcon = "<img class = 'grid icon inactive' src = 'entypo/grid.svg'>"
 
 // var downloadIcon = '<img src = "entypo/download.svg" class = "download icon inactive"/>';
@@ -42,7 +43,8 @@ $(document).ready(function(){
           curr_html ='<li class="piece piece-art"><a class="piece-link" href='+ Url +' style="display: block;"></a><div class="info-bar"><a class="piece-link" href='+Url+' style="display: block;"></a><div class="author"><a class="piece-link" href='+Url+' style="display: block;"></a></div><a href='+Url+ '><h3 class="piece-title">'+ curr.Title +'</h3></a>'+menuWithoutBrowser+'</div><div class="background"><img src="http://harvardlampoon.com'+curr.Img+'"></div></li>';
           break;
         }
-        $("#favorite-pieces").prepend(curr_html);
+        // new content at the top
+        $("#favorite-pieces").append(curr_html);
       }
 
       attach_jquery();
@@ -112,10 +114,10 @@ function attach_jquery(){
       var item = $(e.target).parent().siblings().find("a").attr("href");
       var title = $(e.target).parent().prev().html()
       var img = $(e.target).parent().parent().next().find("img").attr("src")
-      console.log(item)
+      // console.log(item)
       var txt = localStorage.getItem(item)
       var full = '<h2><div class="piece-content"><div class = "menu">'+gridIcon+'</div><div class="piece-text-container">'+txt+'</div><div class="piece-artwork"><img src="'+img+'"></img></div></div></h2>'
-      console.log(img)
+      // console.log(img)
       // console.log(txt);
 
       $("#favorite-pieces").fadeOut();
@@ -123,7 +125,7 @@ function attach_jquery(){
       $(".issue-title").html(title);
 
       $(".grid").click(function swap(){
-        console.log(this);
+        // console.log(this);
         // $("#partition").addClass("invisible")
         $("#partition").empty()
         $(".issue-title").html("Favorites");
@@ -139,19 +141,22 @@ function attach_jquery(){
     var item = $(e.target).parent().siblings().find("a").attr("href");
     var title = $(e.target).parent().prev().html()
     var img = $(e.target).parent().parent().next().find("img").attr("src")
-    console.log(item)
+    // console.log(item)
     var txt = localStorage.getItem(item)
     var full = '<h2><div class="piece-content"><div class = "menu">'+gridIcon+'</div><div class="piece-text-container">'+txt+'</div><div class="piece-artwork"><img src="'+img+'"></img></div></div></h2>'
-    console.log(img)
+    // console.log(img)
     // console.log(txt);
 
     $("#favorite-pieces").fadeOut();
     // $("#partition").removeClass("invisible");
     $("#partition").append(full);
+    if (img == "img/hat_active.png"){
+      $("#partition").find(".piece-artwork").remove()
+      $("#partition").find(".piece-text-container").css({"padding-bottom":"20px"})
+    }
     $(".issue-title").html(title);
 
     $(".grid").click(function swap(){
-      console.log(this);
       $("#partition").empty()
       $(".issue-title").html("Favorites");
       $("#favorite-pieces").fadeIn();

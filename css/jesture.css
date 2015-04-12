@@ -1,3 +1,6 @@
+.info-bar:hover {
+  border-top: 1px solid #6a4faf;
+}
 #jesture-container {
   text-align: center;
 }

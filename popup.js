@@ -44,12 +44,19 @@ $(document).ready(function(){
             if (curr.Img){
               createComixItem(curr.Img, curr.Title)
             }
+            // createAuthorItem([curr.Url], curr.Author)
             createPieceItem(curr.Url, curr.Title, curr.Author)
             break;
         }
       }
 
-
+  //      $(".panel-heading").each(function(){
+  // 	$(this).click(function(){
+  // 		console.log("hello")
+  // 		derp = $(this).find("a").attr("href")
+  // 		console.log(derp)
+  // 	});
+  // });	
     } // end check for error
 
     else {
@@ -63,6 +70,7 @@ $(document).ready(function(){
     // $("#authors").append(authors_favorites[0]);
 
   });
+ 
   $("#jesture-page-link").each(function(){
     $(this).click(function(e){
       e.preventDefault()
@@ -88,7 +96,7 @@ function ajax_pieces(Url, Title, Author){
 
   $.ajax(Url, {
     success: function(data){
-      var txt = $(data).find(".piece-text-container").find("h2").html();
+      var txt = $(data).find(".selected-piece-text-container").find("h2").html();
       var $template = $(".template1");
       var $newPanel = $template.clone();
       $newPanel.removeClass("template1");
@@ -116,8 +124,8 @@ function createPieceItem(u, Title, Author){
            .html(Title);
   // $newPanel.find("panel-heading").attr("href", "#" + (++hash));
   $newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
-  $newPanel.find(".panel-body").html(txt);
-  $("#accordion1").prepend($newPanel.fadeIn());
+  $newPanel.find(".panel-body").html(txt+"<div class = 'popup-title'>"+Author+"</div>" );
+  $("#accordion1").append($newPanel.fadeIn());
 }
 //
 // <div class="panel-heading">
@@ -141,7 +149,7 @@ function createComixItem(Img, Title){
            .text(Title);
   $newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
   $newPanel.find(".panel-body").html(img_html);
-  $("#accordion4").prepend($newPanel.fadeIn());
+  $("#accordion4").append($newPanel.fadeIn());
   // // use the jquery keys function for local storage, to get the value at that location
   // current_html = '<div class="issue"><div class="issue-cover">'+img_html+'</div><h2 class="issue-title">'+Title+'</h2></div>'
   // $("#favorite-comix").append(current_html);
@@ -183,7 +191,10 @@ function createIssueItem(Img, Description, Title, List){
 // display pieces by author names
 function createAuthorItem(List, Author){
   for (piece in List){
-    to_search = "http://harvardlampoon.com" + List[piece]
+    to_search = List[piece]
+    if (to_search.split("/")[0] != "http:"){
+          to_search = "http://harvardlampoon.com" + to_search
+    }
     chrome.storage.sync.get(to_search, function callback(data){
       for (piece in data){
         var object = data[piece]

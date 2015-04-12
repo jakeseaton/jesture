@@ -3,7 +3,7 @@
 
 	"name":"Jesture",
 	"version":"1.0",
-	"description":"Save your favorite lampoon pieces.",
+	"description":"If you're downloading this you're either on the Lampoon, or best of luck.",
 	"background":{
 		"scripts":["js/jquery.min.js", "background.js"],
 		"persistent":true

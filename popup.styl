@@ -5,6 +5,12 @@ Purple = #6a4faf
 .title-container
   height 10%
 
+//new
+.popup-title
+  float right
+a.accordion-toggle
+  display inherit
+
 body
   height 500px
   width 500px
@@ -18,7 +24,7 @@ nav
   display inline
   text-align center
   ul
-    position relative
+    position relative 
     display inline-block !important
   li
     display inline-block !important
@@ -43,3 +49,9 @@ nav
 .panel-body
   img
     width 100%
+.panel-heading
+  &:hover
+    cursor pointer
+    color white
+    background-color Purple !important
+    // border-bottom 1px solid Purple !important

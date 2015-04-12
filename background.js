@@ -28,18 +28,21 @@ chrome.runtime.onMessage.addListener(
 
 			$.ajax(request.u, {
 				success:function(data){
-					// console.log(data);
-					var text_container = $(data).find(".piece-text-container").find("h2").html()
-					// console.log(text_container)
-					try{
-								localStorage.setItem(request.u, text_container);
-								// console.log(localStorage);
-								// SEND A MESSAGE TO THE JESTUREPAGE TO WORK PROPERLY
-						}catch (e){
-							if (e == "QUOTE_EXCEEDED_ERR"){
-								alert("Quote exceeded!");
-							}
-						}
+					if (request.u == "http://harvardlampoon.com/"){
+						var text_container = $(data).find(".piece-text-container").find("h2").html()
+						localStorage.setItem(request.u, text_container);
+					}else{
+						var text_container = $(data).find(".selected-piece-text-container").find("h2").html()
+						localStorage.setItem(request.u, text_container);
+					}
+					// try{
+					// 			// console.log(localStorage);
+					// 			// SEND A MESSAGE TO THE JESTUREPAGE TO WORK PROPERLY
+					// 	}catch (e){
+					// 		if (e == "QUOTE_EXCEEDED_ERR"){
+					// 			alert("Quote exceeded!");
+					// 		}
+					// 	}
 				}
 
 			});
@@ -59,7 +62,7 @@ function store_piece(Url, Title){
 	$.ajax(Url, {
 		success: function(data){
 			// console.log(data);
-			var text_container = $(data).find(".piece-text-container").find("h2").html()
+			var text_container = $(data).find(".selected-piece-text-container").find("h2").html()
 			// console.log(text_container)
 			try{
 						localStorage.setItem(Title, text_container);

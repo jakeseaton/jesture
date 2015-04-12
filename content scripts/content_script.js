@@ -3,7 +3,6 @@
 
 /* SCRIPT TO BE RUN ON EVRY PAGE OF THE HARVARD LAMPOON WEBSITE */
 
-// Global hash function
 // global url variable
 var currentUrl;
 
@@ -17,7 +16,6 @@ var new_icon = "<link rel = 'icon' href ="+ icon_url+ "></link>";
 $('head').append(new_icon);
 
 // build icons
-
 var jesture_url = chrome.extension.getURL('jesture_page.html');
 
 var inactive_star_url = chrome.extension.getURL("img/star_active.png")
@@ -38,41 +36,11 @@ var active_hat = "<img width = 36px height = 36px class = 'hat active' src = " +
 var jesture_hat_inactive = inactive_hat
 var jesture_hat_active = active_hat
 
-// listen for changes in chrome.storage
-chrome.storage.onChanged.addListener(function(changes, namespace){
-	// announce
-	console.log("storage was changed");
-	// save changes
-	// for (var key in changes){var storageChange = changes[key];}
-	// reattach stars and jQuery
-	// attach_jquery();
-	// $(".inactive").siblings().slideDown();
-
-});
-
-// // this is always the next index at which to stick things.
-// Hash = 0
-
-// // this contains all of the current information
-// var ALL_DATA = []
-
-// chrome.storage.sync.get(function accumulate(data){
-// 	console.log(data)
-// 	for (i in data){
-// 		Hash++;
-// 		ALL_DATA.push(data[i]);
-// 	}
-// 	console.log(Hash);
-// 	console.log(ALL_DATA);
-// });
-
 // switch over url
 chrome.runtime.sendMessage({question:"what is the current url?"}, function main(response){
 	currentUrl = response.url;
 	var url_array = response.url.split("/");
-	// console.log(url_array);
 	if (url_array[2] == "harvardlampoon.com"){
-		// console.log("YAY IT WORKS");
 		switch (url_array[3]){
 			case "":
 				main_home();
@@ -85,7 +53,7 @@ chrome.runtime.sendMessage({question:"what is the current url?"}, function main(
 				main_issues();
 				break;
 			case "piece":
-				main_piece();
+				main_piece(".selected-piece-text-container");
 				break;
 			case "author":
 				main_authors();
@@ -107,29 +75,12 @@ chrome.runtime.sendMessage({question:"what is the current url?"}, function main(
 	}
 });
 
-// function update_index(str){
-// 	temp = 1 + parseInt(str)
-// 	return temp.toString();
-// }
-
 function main_home(){
-	// crawl_lampoon(currentUrl);
-	main_piece();
-	// ALSO DO STAFF PICKS
+	console.log("on the home page")
+	main_piece(".piece-text-container");
 }
 
-// function updateAllData(){
-// 	ALL_DATA = [];
-// 	Hash = 0;
-// 	chrome.storage.sync.get(function update(data){
-// 		for (i in data){
-// 			Hash++
-// 			ALL_DATA.push(data[i]);
-// 		}
-// 	});
-// }
-
-function main_piece(){
+function main_piece(fixingTheFeedThingOnTheFrontPage){
 	var Feed = [];
 	var piecesArray = [];
 	chrome.storage.sync.get(function(data){
@@ -141,7 +92,7 @@ function main_piece(){
 				}
 			}
 
-		$(".piece-text-container").each(function(){
+		$(fixingTheFeedThingOnTheFrontPage).each(function(){
 		var curr_title = $('.piece-title').html();
 		if (($.inArray(curr_title, piecesArray)) != -1){
 			if ($(this).has('#jesture-container').length == 0){
@@ -179,7 +130,16 @@ function main_piece(){
 				}
 				piece.Title = Title;
 				piece.Author = Author;
-				piece.Url = currentUrl;
+
+				// // hack
+				// if (currentUrl == "http://harvardlampoon.com/"){
+				// 	var destination = $("body").find(".piece-title").first().parent().attr("href");
+				// 	piece.Url = "http://harvardlampoon.com" + destination
+
+				// }else{
+					piece.Url = currentUrl;
+				// }
+
 				piece.Img = Img;
 				// piece.hashString = INDEX
 				// console.log(piece)
@@ -619,10 +579,10 @@ function main_issues(){
 				issue.Type = "issue"
 				// climb up the DOM
 				var current_issue = $(this).parent().parent().parent()
+				console.log(current_issue)
 				var Title =  current_issue.find("h2").html();
 				var Img = current_issue.find("img").attr("src")
-				var Url = current_issue.find("a").attr("href");
-				console.log(Url)
+				var Url = $(current_issue).parent().attr("href")
 				var List = [];
 
 				$.ajax(Url, {
