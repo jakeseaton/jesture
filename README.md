@@ -38,12 +38,13 @@ Back End
 The background script does two things. It tells the content script the current URL, and it receives Url's from the content script for pieces. It uses AJAX to retrieve the text content of these pieces, and store it in local storage by the URL.
 
 **Content Script:**
-The content script is run on every page of the lampoon website. It retrieves the current URL from the background, and then runs a different main function depending on the types of content on the current page. The star icon is appended to every object that the user could favorite. The hat icon is appended to every item that allows the user to favorite large groups of objects. When clicked, they change to active, and store their content in chrome.storage.sync. If is a piece, the content script send a message to the background to store the issue's text in localStorage.
+The content script is run on every page of the lampoon website. It retrieves the current URL from the background, and then runs a different main function depending on the types of content on the current page. The star icon is appended to every object that the user could favorite. The hat icon is appended to every item that allows the user to favorite large groups of objects. When clicked, they change to active, and store their content in chrome.storage.sync. If it is a piece, the content script sends a message to the background to store the issue's text in localStorage.
 
 To Use
 ---
 
 1) Open chrome, go to chrome://extensions
+
 2) Drag and drop the jesture.crx file onto chrome.
 
 Known Issues:
@@ -51,8 +52,6 @@ Known Issues:
 -- Not rigorously tested on multiple devices due to the chome store's new policy.
 
 -- Not rigorously tested with changes made to the lampoon website since first round (infinite scroll), but was adjusted to account for the class name change.
-
--- Going offline and then favoriting a comic while still offline results in its title being stored improperly.
 
 -- Pieces and Art in the popup are alphabetized by URL. As a result, the piece on the home page will always be at the top.
 
